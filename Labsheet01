@@ -1,1 +1,661 @@
+// Program01.java
+// Display name, age and college
+public class Program01 {
+    public static void main(String[] args) {
+        String name = "Vedika Choudhary";
+        int age = 19;
+        String college = "Your College Name";
+
+        System.out.println("Name: " + name);
+        System.out.println("Age: " + age);
+        System.out.println("College: " + college);
+    }
+}
+// Program03.java
+// Check even or odd
+import java.util.Scanner;
+public class Program03 {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        System.out.print("Enter number: ");
+        int n = sc.nextInt();
+
+        if (n % 2 == 0)
+            System.out.println("Even");
+        else
+            System.out.println("Odd");
+
+        sc.close();
+    }
+}
+
+// Program02.java
+// Arithmetic operations on two integers
+import java.util.Scanner;
+public class Program02 {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        System.out.print("Enter a: ");
+        int a = sc.nextInt();
+        System.out.print("Enter b: ");
+        int b = sc.nextInt();
+
+        System.out.println("Addition = " + (a + b));
+        System.out.println("Subtraction = " + (a - b));
+        System.out.println("Multiplication = " + (a * b));
+
+        if (b != 0) {
+            System.out.println("Division = " + (a / (double)b));
+            System.out.println("Modulus = " + (a % b));
+        } else {
+            System.out.println("Division/Modulus not possible (b = 0)");
+        }
+        sc.close();
+    }
+}
+// Program04.java
+// Demonstrate relational operators
+import java.util.Scanner;
+public class Program04 {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        int a = sc.nextInt();
+        int b = sc.nextInt();
+
+        System.out.println("a == b : " + (a == b));
+        System.out.println("a != b : " + (a != b));
+        System.out.println("a > b  : " + (a > b));
+        System.out.println("a < b  : " + (a < b));
+        System.out.println("a >= b : " + (a >= b));
+        System.out.println("a <= b : " + (a <= b));
+
+        sc.close();
+    }
+}
+// Program05.java
+// Convert float to int
+import java.util.Scanner;
+public class Program05 {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        float f = sc.nextFloat();
+        int i = (int) f;
+
+        System.out.println("Float value = " + f);
+        System.out.println("Integer value = " + i);
+
+        sc.close();
+    }
+}
+// Program05.java
+// Convert float to int
+import java.util.Scanner;
+public class Program05 {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        float f = sc.nextFloat();
+        int i = (int) f;
+
+        System.out.println("Float value = " + f);
+        System.out.println("Integer value = " + i);
+
+        sc.close();
+    }
+}
+// Program06.java
+// ASCII value of character
+import java.util.Scanner;
+public class Program06 {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        char ch = sc.next().charAt(0);
+        System.out.println("ASCII = " + (int)ch);
+
+        sc.close();
+    }
+}
+// Program07.java
+// Check divisible by 3 and 5
+import java.util.Scanner;
+public class Program07 {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        int n = sc.nextInt();
+
+        if (n % 3 == 0 && n % 5 == 0)
+            System.out.println("Divisible by both 3 and 5");
+        else
+            System.out.println("Not divisible by both");
+
+        sc.close();
+    }
+}// Program08.java
+// Check vowel or consonant
+import java.util.Scanner;
+public class Program08 {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        char ch = Character.toLowerCase(sc.next().charAt(0));
+
+        if (ch=='a'||ch=='e'||ch=='i'||ch=='o'||ch=='u')
+            System.out.println("Vowel");
+        else
+            System.out.println("Consonant");
+
+        sc.close();
+    }
+}
+// Program09.java
+// Total, percentage and pass/fail
+import java.util.Scanner;
+public class Program09 {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        int m1 = sc.nextInt();
+        int m2 = sc.nextInt();
+        int m3 = sc.nextInt();
+
+        int total = m1 + m2 + m3;
+        double perc = total / 3.0;
+
+        System.out.println("Total = " + total);
+        System.out.println("Percentage = " + perc);
+
+        if (m1>=40 && m2>=40 && m3>=40)
+            System.out.println("Pass");
+        else
+            System.out.println("Fail");
+
+        sc.close();
+    }
+}
+
+// Program10.java
+// Greatest of two numbers
+import java.util.Scanner;
+public class Program10 {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        int a = sc.nextInt();
+        int b = sc.nextInt();
+
+        if (a > b)
+            System.out.println("Greatest = " + a);
+        else if (b > a)
+            System.out.println("Greatest = " + b);
+        else
+            System.out.println("Both are equal");
+
+        sc.close();
+    }
+}
+// Program11.java
+// Largest of three numbers using nested if-else
+import java.util.Scanner;
+public class Program11 {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        int a = sc.nextInt();
+        int b = sc.nextInt();
+        int c = sc.nextInt();
+
+        int largest;
+
+        if (a >= b) {
+            if (a >= c)
+                largest = a;
+            else
+                largest = c;
+        } else {
+            if (b >= c)
+                largest = b;
+            else
+                largest = c;
+        }
+
+        System.out.println("Largest = " + largest);
+        sc.close();
+    }
+}// Program12.java
+// Check Leap Year
+import java.util.Scanner;
+public class Program12 {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        int y = sc.nextInt();
+
+        if ((y % 4 == 0 && y % 100 != 0) || (y % 400 == 0))
+            System.out.println("Leap Year");
+        else
+            System.out.println("Not a Leap Year");
+
+        sc.close();
+    }
+}// Program13.java
+// Check Positive, Negative, or Zero
+import java.util.Scanner;
+public class Program13 {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        int n = sc.nextInt();
+
+        if (n > 0)
+            System.out.println("Positive");
+        else if (n < 0)
+            System.out.println("Negative");
+        else
+            System.out.println("Zero");
+
+        sc.close();
+    }
+}
+// Program14.java
+// Check digit, uppercase, lowercase or special character
+import java.util.Scanner;
+public class Program14 {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        char ch = sc.next().charAt(0);
+
+        if (Character.isDigit(ch))
+            System.out.println("Digit");
+        else if (Character.isUpperCase(ch))
+            System.out.println("Uppercase Letter");
+        else if (Character.isLowerCase(ch))
+            System.out.println("Lowercase Letter");
+        else
+            System.out.println("Special Character");
+
+        sc.close();
+    }
+}
+// Program15.java
+// Armstrong number (3-digit)
+import java.util.Scanner;
+public class Program15 {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        int n = sc.nextInt();
+        int original = n;
+        int sum = 0;
+
+        while (n > 0) {
+            int d = n % 10;
+            sum += d * d * d;
+            n /= 10;
+        }
+
+        if (sum == original)
+            System.out.println("Armstrong Number");
+        else
+            System.out.println("Not Armstrong");
+
+        sc.close();
+    }
+}
+// Program16.java
+// Calculate tax based on income slabs
+import java.util.Scanner;
+public class Program16 {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        double income = sc.nextDouble();
+        double tax = 0;
+
+        if (income <= 250000)
+            tax = 0;
+        else if (income <= 500000)
+            tax = (income - 250000) * 0.05;
+        else if (income <= 1000000)
+            tax = (250000 * 0.05) + (income - 500000) * 0.20;
+        else
+            tax = (250000 * 0.05) + (500000 * 0.20) + (income - 1000000) * 0.30;
+
+        System.out.println("Tax = " + tax);
+
+        sc.close();
+    }
+}
+// Program17.java
+// Check palindrome number
+import java.util.Scanner;
+public class Program17 {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        int n = sc.nextInt();
+        int original = n;
+        int rev = 0;
+
+        while (n > 0) {
+            rev = rev * 10 + n % 10;
+            n /= 10;
+        }
+
+        if (rev == original)
+            System.out.println("Palindrome");
+        else
+            System.out.println("Not Palindrome");
+
+        sc.close();
+    }
+}
+// Program18.java
+// Check prime number
+import java.util.Scanner;
+public class Program18 {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        int n = sc.nextInt();
+        boolean prime = true;
+
+        if (n <= 1) prime = false;
+
+        for (int i = 2; i * i <= n; i++) {
+            if (n % i == 0) {
+                prime = false;
+                break;
+            }
+        }
+
+        System.out.println(prime ? "Prime" : "Not Prime");
+
+        sc.close();
+    }
+}
+// Program19.java
+// Perform +, -, *, / based on operator
+import java.util.Scanner;
+public class Program19 {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        double a = sc.nextDouble();
+        double b = sc.nextDouble();
+        char op = sc.next().charAt(0);
+
+        if (op == '+')
+            System.out.println(a + b);
+        else if (op == '-')
+            System.out.println(a - b);
+        else if (op == '*')
+            System.out.println(a * b);
+        else if (op == '/') {
+            if (b != 0)
+                System.out.println(a / b);
+            else
+                System.out.println("Cannot divide by zero");
+        } else
+            System.out.println("Invalid operator");
+
+        sc.close();
+    }
+}
+// Program20.java
+// Marriage eligibility (male ≥ 21, female ≥ 18)
+import java.util.Scanner;
+public class Program20 {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        int age = sc.nextInt();
+        char gender = Character.toLowerCase(sc.next().charAt(0)); // 'm' or 'f'
+
+        if (gender == 'm') {
+            if (age >= 21)
+                System.out.println("Eligible");
+            else
+                System.out.println("Not Eligible");
+        }
+        else if (gender == 'f') {
+            if (age >= 18)
+                System.out.println("Eligible");
+            else
+                System.out.println("Not Eligible");
+        }
+        else
+            System.out.println("Invalid gender");
+
+        sc.close();
+    }
+}
+// Program21.java
+// Check if three angles form a valid triangle
+import java.util.Scanner;
+public class Program21 {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        int a = sc.nextInt();
+        int b = sc.nextInt();
+        int c = sc.nextInt();
+
+        if (a + b + c == 180)
+            System.out.println("Valid Triangle");
+        else
+            System.out.println("Invalid Triangle");
+
+        sc.close();
+    }
+}
+// Program22.java
+// Check if rectangle is a square
+import java.util.Scanner;
+public class Program22 {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        int length = sc.nextInt();
+        int breadth = sc.nextInt();
+
+        if (length == breadth)
+            System.out.println("Square");
+        else
+            System.out.println("Rectangle");
+
+        sc.close();
+    }
+}
+// Program23.java
+// Convert Celsius to Fahrenheit
+import java.util.Scanner;
+public class Program23 {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        double c = sc.nextDouble();
+        double f = (c * 9 / 5) + 32;
+
+        System.out.println("Fahrenheit = " + f);
+
+        sc.close();
+    }
+}
+// Program24.java
+// Check perfect number
+import java.util.Scanner;
+public class Program24 {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        int n = sc.nextInt();
+        int sum = 0;
+
+        for (int i = 1; i <= n / 2; i++) {
+            if (n % i == 0)
+                sum += i;
+        }
+
+        if (sum == n)
+            System.out.println("Perfect Number");
+        else
+            System.out.println("Not Perfect");
+
+        sc.close();
+    }
+}// Program25.java
+// Perform logical operation (&, |, ^) on two booleans
+import java.util.Scanner;
+public class Program25 {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        boolean a = sc.nextBoolean();
+        boolean b = sc.nextBoolean();
+        char op = sc.next().charAt(0);
+
+        boolean result;
+
+        if (op == '&')
+            result = a & b;
+        else if (op == '|')
+            result = a | b;
+        else if (op == '^')
+            result = a ^ b;
+        else {
+            System.out.println("Invalid operator");
+            sc.close();
+            return;
+        }
+
+        System.out.println("Result = " + result);
+        sc.close();
+    }
+}
+// Program26.java
+// Check if first and last digit of a 5-digit number are same
+import java.util.Scanner;
+public class Program26 {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        int n = sc.nextInt();
+
+        int first = n / 10000;
+        int last = n % 10;
+
+        if (first == last)
+            System.out.println("Same");
+        else
+            System.out.println("Not Same");
+
+        sc.close();
+    }
+}
+// Program27.java
+// Calculate profit or loss
+import java.util.Scanner;
+public class Program27 {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        double cp = sc.nextDouble();
+        double sp = sc.nextDouble();
+
+        if (sp > cp)
+            System.out.println("Profit = " + (sp - cp));
+        else if (cp > sp)
+            System.out.println("Loss = " + (cp - sp));
+        else
+            System.out.println("No Profit, No Loss");
+
+        sc.close();
+    }
+}
+// Program28.java
+// Count number of digits
+import java.util.Scanner;
+public class Program28 {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        int n = Math.abs(sc.nextInt());
+        int count = 0;
+
+        if (n == 0)
+            count = 1;
+        else {
+            while (n > 0) {
+                n /= 10;
+                count++;
+            }
+        }
+
+        System.out.println("Digits = " + count);
+        sc.close();
+    }
+}
+// Program29.java
+// Classify height in cm: short (<150), average (150–170), tall (>170)
+import java.util.Scanner;
+public class Program29 {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        int h = sc.nextInt();
+
+        if (h < 150)
+            System.out.println("Short");
+        else if (h <= 170)
+            System.out.println("Average");
+        else
+            System.out.println("Tall");
+
+        sc.close();
+    }
+}
+// Program30.java
+// Simple calculator using if-else
+import java.util.Scanner;
+public class Program30 {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        double a = sc.nextDouble();
+        double b = sc.nextDouble();
+        char op = sc.next().charAt(0);
+
+        if (op == '+')
+            System.out.println(a + b);
+        else if (op == '-')
+            System.out.println(a - b);
+        else if (op == '*')
+            System.out.println(a * b);
+        else if (op == '/') {
+            if (b != 0)
+                System.out.println(a / b);
+            else
+                System.out.println("Cannot divide by zero");
+        } else
+            System.out.println("Invalid Operator");
+
+        sc.close();
+    }
+}
+
+
+
+
+
+
+
+
+
 
