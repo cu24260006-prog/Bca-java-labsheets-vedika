@@ -1,1 +1,836 @@
+// Program01.java
+// Student class with name and age, constructor and display method
+public class Program01 {
+    String name;
+    int age;
+
+    public Program01(String name, int age) {
+        this.name = name;
+        this.age = age;
+    }
+
+    public void display() {
+        System.out.println("Name: " + name + ", Age: " + age);
+    }
+
+    public static void main(String[] args) {
+        // local variables used to create objects
+        Program01 s1 = new Program01("Asha", 19);
+        Program01 s2 = new Program01("Rohit", 20);
+
+        s1.display();
+        s2.display();
+    }
+}
+// Program02.java
+// Book class with title, static countBooks and print method
+public class Program02 {
+    String title;
+    static int countBooks = 0;
+
+    public Program02(String title) {
+        this.title = title;
+        countBooks++;
+    }
+
+    public void printDetails() {
+        System.out.println("Title: " + title);
+    }
+
+    public static void main(String[] args) {
+        Program02 b1 = new Program02("Data Structures");
+        Program02 b2 = new Program02("Java Fundamentals");
+
+        b1.printDetails();
+        b2.printDetails();
+        System.out.println("Total books created = " + Program02.countBooks);
+    }
+}
+// Program03.java
+// Circle class with radius, constructor and method to calculate area
+public class Program03 {
+    double radius;
+
+    public Program03(double radius) {
+        this.radius = radius;
+    }
+
+    public double area() {
+        double area = Math.PI * radius * radius; // local variable area
+        return area;
+    }
+
+    public static void main(String[] args) {
+        Program03 c = new Program03(2.5);
+        System.out.println("Radius = " + c.radius);
+        System.out.println("Area = " + c.area());
+    }
+}
+// Program04.java
+// Counter class with static count incremented in constructor
+public class Program04 {
+    static int count = 0;
+
+    public Program04() {
+        count++;
+    }
+
+    public void displayCount() {
+        System.out.println("Current count = " + count);
+    }
+
+    public static void main(String[] args) {
+        Program04 x1 = new Program04();
+        Program04 x2 = new Program04();
+        Program04 x3 = new Program04();
+
+        x3.displayCount(); // shows 3
+    }
+}
+// Program05.java
+// Employee class with empName and salary and method using local variables to format output
+public class Program05 {
+    String empName;
+    double salary;
+
+    public Program05(String empName, double salary) {
+        this.empName = empName;
+        this.salary = salary;
+    }
+
+    public void display() {
+        String out = "Employee: " + empName + " | Salary: Rs " + String.format("%.2f", salary); // local formatting
+        System.out.println(out);
+    }
+
+    public static void main(String[] args) {
+        Program05 e = new Program05("Sunil", 45000.0);
+        e.display();
+    }
+}
+// Program06.java
+// Rectangle class with length and width, constructor and area method
+public class Program06 {
+    double length;
+    double width;
+
+    public Program06(double length, double width) {
+        this.length = length;
+        this.width = width;
+    }
+
+    public double area() {
+        double a = length * width; // local
+        return a;
+    }
+
+    public static void main(String[] args) {
+        Program06 r = new Program06(5.0, 3.0);
+        System.out.println("Length = " + r.length + ", Width = " + r.width);
+        System.out.println("Area = " + r.area());
+    }
+}
+// Program07.java
+// Car class with model, year and static totalCars incremented in constructor
+public class Program07 {
+    String model;
+    int year;
+    static int totalCars = 0;
+
+    public Program07(String model, int year) {
+        this.model = model;
+        this.year = year;
+        totalCars++;
+    }
+
+    public void display() {
+        System.out.println("Model: " + model + ", Year: " + year);
+    }
+
+    public static void main(String[] args) {
+        Program07 c1 = new Program07("Swift", 2020);
+        Program07 c2 = new Program07("Tiago", 2021);
+
+        c1.display();
+        c2.display();
+        System.out.println("Total cars = " + Program07.totalCars);
+    }
+}
+// Program08.java
+// Box class with height, width, depth, constructor and method to calculate volume
+public class Program08 {
+    double height;
+    double width;
+    double depth;
+
+    public Program08(double height, double width, double depth) {
+        this.height = height;
+        this.width = width;
+        this.depth = depth;
+    }
+
+    public double volume() {
+        double vol = height * width * depth; // local
+        return vol;
+    }
+
+    public static void main(String[] args) {
+        Program08 box = new Program08(2.0, 3.0, 4.0);
+        System.out.println("Volume = " + box.volume());
+    }
+}
+// Program09.java
+// Mobile class with brand and a method using local variable price
+public class Program09 {
+    String brand;
+
+    public Program09(String brand) {
+        this.brand = brand;
+    }
+
+    public void showPrice() {
+        double price = 15000.0; // local variable
+        System.out.println("Brand: " + brand + ", Price: Rs " + price);
+    }
+
+    public static void main(String[] args) {
+        Program09 m = new Program09("Samsung");
+        m.showPrice();
+    }
+}
+// Program10.java
+// BankAccount with accountNumber, balance, constructor and deposit method
+public class Program10 {
+    String accountNumber;
+    double balance;
+
+    public Program10(String accountNumber, double balance) {
+        this.accountNumber = accountNumber;
+        this.balance = balance;
+    }
+
+    public void deposit(double amount) {
+        double amt = amount; // local variable
+        if (amt > 0) {
+            balance += amt;
+            System.out.println("Deposited: Rs " + amt + " | New Balance: Rs " + balance);
+        } else {
+            System.out.println("Invalid deposit amount");
+        }
+    }
+
+    public static void main(String[] args) {
+        Program10 acc = new Program10("AC12345", 2000.0);
+        acc.deposit(1500.0);
+    }
+}
+// Program11.java
+// Account with static bankName, deposit method using local variable amount
+import java.util.Scanner;
+public class Program11 {
+    static String bankName = "MyBank";
+    String accountNumber;
+    double balance;
+
+    public Program11(String accountNumber, double balance) {
+        this.accountNumber = accountNumber;
+        this.balance = balance;
+    }
+
+    public void deposit(double amt) {
+        double amount = amt; // local variable
+        if (amount > 0) {
+            balance += amount;
+            System.out.println("Deposited: " + amount + " | New balance: " + balance);
+        } else {
+            System.out.println("Invalid deposit amount");
+        }
+    }
+
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        System.out.print("Account no: ");
+        String acc = sc.next();
+        System.out.print("Initial balance: ");
+        double bal = sc.nextDouble();
+
+        Program11 ac = new Program11(acc, bal);
+        System.out.println("Bank: " + Program11.bankName);
+
+        System.out.print("Enter deposit amount: ");
+        double d = sc.nextDouble();
+        ac.deposit(d);
+
+        sc.close();
+    }
+}
+// Program12.java
+// Course with courseName, duration and static totalCourses
+import java.util.Scanner;
+public class Program12 {
+    String courseName;
+    int duration; // in weeks/months
+    static int totalCourses = 0;
+
+    public Program12(String courseName, int duration) {
+        this.courseName = courseName;
+        this.duration = duration;
+        totalCourses++;
+    }
+
+    public void display() {
+        System.out.println("Course: " + courseName + " | Duration: " + duration);
+    }
+
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        System.out.print("Course name: ");
+        String name = sc.nextLine();
+        System.out.print("Duration (weeks): ");
+        int dur = sc.nextInt();
+
+        Program12 c = new Program12(name, dur);
+        c.display();
+        System.out.println("Total courses = " + Program12.totalCourses);
+
+        sc.close();
+    }
+}
+// Program13.java
+// Inventory with itemName, quantity and static totalItems
+import java.util.Scanner;
+public class Program13 {
+    String itemName;
+    int quantity;
+    static int totalItems = 0;
+
+    public Program13(String itemName, int quantity) {
+        this.itemName = itemName;
+        this.quantity = quantity;
+        totalItems += quantity;
+    }
+
+    public void display() {
+        System.out.println("Item: " + itemName + " | Quantity: " + quantity);
+    }
+
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        System.out.print("Item name: ");
+        String item = sc.nextLine();
+        System.out.print("Quantity: ");
+        int q = sc.nextInt();
+
+        Program13 inv = new Program13(item, q);
+        inv.display();
+        System.out.println("Total items in inventory = " + Program13.totalItems);
+
+        sc.close();
+    }
+}
+// Program14.java
+// City with cityName and static countryName; method uses local variable population
+import java.util.Scanner;
+public class Program14 {
+    String cityName;
+    static String countryName = "India";
+
+    public Program14(String cityName) {
+        this.cityName = cityName;
+    }
+
+    public void showDetails(int population) {
+        int pop = population; // local variable
+        System.out.println("City: " + cityName + ", Population: " + pop + ", Country: " + countryName);
+    }
+
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        System.out.print("City name: ");
+        String c = sc.nextLine();
+        System.out.print("Population (integer): ");
+        int p = sc.nextInt();
+
+        Program14 city = new Program14(c);
+        city.showDetails(p);
+
+        sc.close();
+    }
+}
+// Program15.java
+// LaptopStore with laptopName, price and static storeName, method applies discount using local variable
+import java.util.Scanner;
+public class Program15 {
+    String laptopName;
+    double price;
+    static String storeName = "LaptopWorld";
+
+    public Program15(String laptopName, double price) {
+        this.laptopName = laptopName;
+        this.price = price;
+    }
+
+    public double applyDiscount(double discountPercent) {
+        double discount = discountPercent; // local
+        double finalPrice = price - (price * discount / 100.0);
+        return finalPrice;
+    }
+
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        System.out.print("Laptop name: ");
+        String name = sc.nextLine();
+        System.out.print("Price: ");
+        double pr = sc.nextDouble();
+        System.out.print("Discount %: ");
+        double dis = sc.nextDouble();
+
+        Program15 shop = new Program15(name, pr);
+        System.out.println("Store: " + Program15.storeName);
+        System.out.println("Final price = " + shop.applyDiscount(dis));
+
+        sc.close();
+    }
+}
+// Program16.java
+// Hotel class with roomType and static hotelName, method to display booking details
+import java.util.Scanner;
+public class Program16 {
+    String roomType;
+    static String hotelName = "Comfort Inn";
+
+    public Program16(String roomType) {
+        this.roomType = roomType;
+    }
+
+    public void bookingDetails(int nights, double ratePerNight) {
+        int n = nights; // local
+        double total = n * ratePerNight; // local
+        System.out.println("Hotel: " + hotelName + " | Room: " + roomType + " | Nights: " + n + " | Total = " + total);
+    }
+
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        System.out.print("Room type: ");
+        String rt = sc.nextLine();
+        System.out.print("Nights: ");
+        int nights = sc.nextInt();
+        System.out.print("Rate per night: ");
+        double rate = sc.nextDouble();
+
+        Program16 h = new Program16(rt);
+        h.bookingDetails(nights, rate);
+
+        sc.close();
+    }
+}
+// Program17.java
+// University with studentName, rollNumber and static universityName
+import java.util.Scanner;
+public class Program17 {
+    String studentName;
+    String rollNumber;
+    static String universityName = "State University";
+
+    public Program17(String studentName, String rollNumber) {
+        this.studentName = studentName;
+        this.rollNumber = rollNumber;
+    }
+
+    public void display() {
+        System.out.println("Student: " + studentName + " | Roll: " + rollNumber + " | University: " + universityName);
+    }
+
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        System.out.print("Student name: ");
+        String s = sc.nextLine();
+        System.out.print("Roll number: ");
+        String r = sc.next();
+
+        Program17 st = new Program17(s, r);
+        st.display();
+
+        sc.close();
+    }
+}
+// Program18.java
+// Flight with flightNumber, destination and static airlineName
+import java.util.Scanner;
+public class Program18 {
+    String flightNumber;
+    String destination;
+    static String airlineName = "AirlineX";
+
+    public Program18(String flightNumber, String destination) {
+        this.flightNumber = flightNumber;
+        this.destination = destination;
+    }
+
+    public void show() {
+        System.out.println("Airline: " + airlineName + " | Flight: " + flightNumber + " | Destination: " + destination);
+    }
+
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        System.out.print("Flight number: ");
+        String fn = sc.next();
+        sc.nextLine();
+        System.out.print("Destination: ");
+        String dest = sc.nextLine();
+
+        Program18 f = new Program18(fn, dest);
+        f.show();
+
+        sc.close();
+    }
+}
+// Program19.java
+// Game with gameName, genre, static platform, method uses local rating
+import java.util.Scanner;
+public class Program19 {
+    String gameName;
+    String genre;
+    static String platform = "PC";
+
+    public Program19(String gameName, String genre) {
+        this.gameName = gameName;
+        this.genre = genre;
+    }
+
+    public void showDetails(double rating) {
+        double r = rating; // local
+        System.out.println("Game: " + gameName + " | Genre: " + genre + " | Platform: " + platform + " | Rating: " + r);
+    }
+
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        System.out.print("Game name: ");
+        String name = sc.nextLine();
+        System.out.print("Genre: ");
+        String g = sc.nextLine();
+        System.out.print("Rating (0-10): ");
+        double rate = sc.nextDouble();
+
+        Program19 game = new Program19(name, g);
+        game.showDetails(rate);
+
+        sc.close();
+    }
+}
+// Program20.java
+// Store with itemName, static storeLocation, method uses local discount to show final price
+import java.util.Scanner;
+public class Program20 {
+    String itemName;
+    static String storeLocation = "Downtown";
+
+    public Program20(String itemName) {
+        this.itemName = itemName;
+    }
+
+    public double finalPrice(double price, double discountPercent) {
+        double discount = discountPercent; // local
+        double finalP = price - (price * discount / 100.0);
+        return finalP;
+    }
+
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        System.out.print("Item name: ");
+        String item = sc.nextLine();
+        System.out.print("Price: ");
+        double price = sc.nextDouble();
+        System.out.print("Discount %: ");
+        double disc = sc.nextDouble();
+
+        Program20 s = new Program20(item);
+        double fp = s.finalPrice(price, disc);
+        System.out.println("Store location: " + Program20.storeLocation);
+        System.out.println("Final price for " + s.itemName + " = " + fp);
+
+        sc.close();
+    }
+}
+// Program21.java
+// Book class with three overloaded constructors and print method
+public class Program21 {
+    String title;
+    String author;
+    double price;
+
+    // Constructor 1: all parameters
+    public Program21(String title, String author, double price) {
+        this.title = title; this.author = author; this.price = price;
+    }
+
+    // Constructor 2: title and author only (price = 500)
+    public Program21(String title, String author) {
+        this(title, author, 500.0);
+    }
+
+    // Constructor 3: default (Unknown)
+    public Program21() {
+        this("Unknown", "Unknown", 0.0);
+    }
+
+    public void printDetails() {
+
+// Program22.java
+// Rectangle class showing constructor overloading (no-arg, one-arg, two-arg)
+public class Program22 {
+    double length;
+    double breadth;
+
+    // No-arg constructor -> default 1x1
+    public Program22() {
+        this.length = 1.0; this.breadth = 1.0;
+    }
+
+    // One-arg -> square
+    public Program22(double side) {
+        this.length = side; this.breadth = side;
+    }
+
+    // Two-arg -> rectangle
+    public Program22(double length, double breadth) {
+        this.length = length; this.breadth = breadth;
+    }
+
+    public double area() {
+        double a = length * breadth;
+        return a;
+    }
+
+    public static void main(String[] args) {
+        Program22 r1 = new Program22();
+        Program22 r2 = new Program22(4.0);       // square 4x4
+        Program22 r3 = new Program22(5.0, 3.0);  // rectangle
+
+        System.out.println("r1 area = " + r1.area());
+        System.out.println("r2 area = " + r2.area());
+        System.out.println("r3 area = " + r3.area());
+    }
+}
+// Program23.java
+// Employee with overloaded constructors (all fields, id+name)
+public class Program23 {
+    int id;
+    String name;
+    double salary;
+
+    // All fields
+    public Program23(int id, String name, double salary) {
+        this.id = id; this.name = name; this.salary = salary;
+    }
+
+    // id and name only -> default salary = 30000
+    public Program23(int id, String name) {
+        this(id, name, 30000.0);
+    }
+
+    public void display() {
+        System.out.println("ID: " + id + " | Name: " + name + " | Salary: " + salary);
+    }
+
+    public static void main(String[] args) {
+        Program23 e1 = new Program23(101, "Amit", 45000.0);
+        Program23 e2 = new Program23(102, "Neha"); // salary 30000
+        e1.display();
+        e2.display();
+    }
+}
+// Program24.java
+// Car class with overloaded constructors (brand only, brand+model, brand+model+year)
+public class Program24 {
+    String brand;
+    String model;
+    int year;
+
+    public Program24(String brand) {
+        this(brand, "Unknown", 0);
+    }
+
+    public Program24(String brand, String model) {
+        this(brand, model, 0);
+    }
+
+    public Program24(String brand, String model, int year) {
+        this.brand = brand; this.model = model; this.year = year;
+    }
+
+    public void display() {
+        System.out.println("Brand: " + brand + " | Model: " + model + " | Year: " + year);
+    }
+
+    public static void main(String[] args) {
+        Program24 c1 = new Program24("Maruti");
+        Program24 c2 = new Program24("Honda", "City");
+        Program24 c3 = new Program24("Toyota", "Corolla", 2019);
+
+        c1.display();
+        c2.display();
+        c3.display();
+    }
+}
+// Program25.java
+// Explanation of why constructor overloading is needed + simple example printed
+public class Program25 {
+    public static void main(String[] args) {
+        System.out.println("Why constructor overloading?");
+        System.out.println("- It allows creating objects with different sets of initial data.");
+        System.out.println("- Provides convenience and readability (default, partial or full initialization).");
+        System.out.println("- Example: a Book can be created with full details, just title+author, or default values.");
+
+        // small runtime example (reuse Program21 style)
+        Program21 example1 = new Program21("DSA", "Reddy", 600.0);
+        Program21 example2 = new Program21("Networking", "Khan");
+        Program21 example3 = new Program21();
+
+        example1.printDetails();
+        example2.printDetails();
+        example3.printDetails();
+    }
+}
+
+// small helper class used above (same as Program21) to demonstrate
+class Program21 {
+    String title; String author; double price;
+    public Program21(String t, String a, double p) { title=t; author=a; price=p;}
+    public Program21(String t, String a) { this(t,a,500.0); }
+    public Program21() { this("Unknown","Unknown",0.0); }
+    public void printDetails(){ System.out.println(title + " | " + author + " | " + price); }
+}
+// Program26.java
+// Calculator class demonstrating method overloading add()
+public class Program26 {
+    // add two ints
+    public int add(int a, int b) {
+        int res = a + b; // local
+        return res;
+    }
+
+    // add two doubles
+    public double add(double a, double b) {
+        double res = a + b;
+        return res;
+    }
+
+    // concatenate two strings
+    public String add(String a, String b) {
+        String res = a + b;
+        return res;
+    }
+
+    public static void main(String[] args) {
+        Program26 calc = new Program26();
+        System.out.println("int add: " + calc.add(5, 7));
+        System.out.println("double add: " + calc.add(3.2, 4.5));
+        System.out.println("String add: " + calc.add("Hello ", "World"));
+    }
+}
+// Program27.java
+// Printer class with overloaded print methods for int, double and string
+public class Program27 {
+    public void print(int x) {
+        System.out.println("Int: " + x);
+    }
+
+    public void print(double x) {
+        System.out.println("Double: " + x);
+    }
+
+    public void print(String s) {
+        System.out.println("String: " + s);
+    }
+
+    public static void main(String[] args) {
+        Program27 p = new Program27();
+        p.print(100);
+        p.print(3.1415);
+        p.print("Print this line");
+    }
+}
+// Program28.java
+// MathOperations with overloaded multiply(): 2 ints, 3 ints, 2 doubles
+public class Program28 {
+    public int multiply(int a, int b) {
+        return a * b;
+    }
+
+    public int multiply(int a, int b, int c) {
+        return a * b * c;
+    }
+
+    public double multiply(double a, double b) {
+        return a * b;
+    }
+
+    public static void main(String[] args) {
+        Program28 mo = new Program28();
+        System.out.println("2 ints: " + mo.multiply(2,3));
+        System.out.println("3 ints: " + mo.multiply(2,3,4));
+        System.out.println("2 doubles: " + mo.multiply(2.5, 4.0));
+    }
+}
+// Program29.java
+// Short code examples showing method overloading vs method overriding
+
+// Base class demonstrating overloading
+class OverloadExample {
+    public void show() { System.out.println("show() with no args"); }
+    public void show(int x) { System.out.println("show(int): " + x); } // overloaded method
+}
+
+// Base and derived class demonstrating overriding
+class Base {
+    public void greet() { System.out.println("Hello from Base"); }
+}
+class Derived extends Base {
+    @Override
+    public void greet() { System.out.println("Hello from Derived (overridden)"); }
+}
+
+public class Program29 {
+    public static void main(String[] args) {
+        System.out.println("Method Overloading example:");
+        OverloadExample o = new OverloadExample();
+        o.show();
+        o.show(10);
+
+        System.out.println("\nMethod Overriding example:");
+        Base b = new Base();
+        b.greet();
+        Base d = new Derived(); // runtime polymorphism
+        d.greet();
+    }
+}
+// Program30.java
+// ShapeArea with overloaded area() methods: square, rectangle, circle
+public class Program30 {
+    // square area
+    public int area(int side) {
+        return side * side;
+    }
+
+    // rectangle area
+    public int area(int length, int breadth) {
+        return length * breadth;
+    }
+
+    // circle area (double)
+    public double area(double radius) {
+        return Math.PI * radius * radius;
+    }
+
+    public static void main(String[] args) {
+        Program30 s = new Program30();
+        System.out.println("Square area (side=5): " + s.area(5));
+        System.out.println("Rectangle area (5x3): " + s.area(5,3));
+        System.out.println("Circle area (r=2.5): " + s.area(2.5));
+    }
+}
+
+
 
