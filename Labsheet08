@@ -1,1 +1,522 @@
+// Program01.java
+// JavaBean: StudentBean with private properties id, name, grade
+public class Program01 {
+    public static class StudentBean {
+        private int id;
+        private String name;
+        private double grade;
+
+        public StudentBean() {} // no-arg constructor
+
+        public int getId() { return id; }
+        public void setId(int id) { this.id = id; }
+
+        public String getName() { return name; }
+        public void setName(String name) { this.name = name; }
+
+        public double getGrade() { return grade; }
+        public void setGrade(double grade) { this.grade = grade; }
+    }
+
+    public static void main(String[] args) {
+        StudentBean s = new StudentBean();
+        s.setId(101);
+        s.setName("Vedika");
+        s.setGrade(8.5);
+
+        System.out.println("Student id=" + s.getId() + ", name=" + s.getName() + ", grade=" + s.getGrade());
+    }
+}
+
+// Program02.java
+// JavaBean: RectangleBean with length, width and methods area(), perimeter()
+public class Program02 {
+    public static class RectangleBean {
+        private double length;
+        private double width;
+
+        public RectangleBean() {}
+
+        public double getLength() { return length; }
+        public void setLength(double length) { this.length = length; }
+
+        public double getWidth() { return width; }
+        public void setWidth(double width) { this.width = width; }
+
+        // convenience methods (read-only computed)
+        public double getArea() { return length * width; }
+        public double getPerimeter() { return 2 * (length + width); }
+    }
+
+    public static void main(String[] args) {
+        RectangleBean r = new RectangleBean();
+        r.setLength(5);
+        r.setWidth(3);
+        System.out.println("Area = " + r.getArea() + ", Perimeter = " + r.getPerimeter());
+    }
+}
+// Program03.java
+// JavaBean: EmployeeBean implements Serializable
+import java.io.Serializable;
+
+public class Program03 {
+    public static class EmployeeBean implements Serializable {
+        private static final long serialVersionUID = 1L;
+
+        private int empId;
+        private String empName;
+        private double salary;
+
+        public EmployeeBean() {}
+
+        public int getEmpId() { return empId; }
+        public void setEmpId(int empId) { this.empId = empId; }
+
+        public String getEmpName() { return empName; }
+        public void setEmpName(String empName) { this.empName = empName; }
+
+        public double getSalary() { return salary; }
+        public void setSalary(double salary) { this.salary = salary; }
+    }
+
+    public static void main(String[] args) {
+        EmployeeBean e = new EmployeeBean();
+        e.setEmpId(501);
+        e.setEmpName("R. Sharma");
+        e.setSalary(55000.0);
+        System.out.println("Emp: " + e.getEmpId() + ", " + e.getEmpName() + ", salary=" + e.getSalary());
+    }
+}
+// Program04.java
+// JavaBean: DateBean with read-only property currentDate (String)
+import java.time.LocalDate;
+
+public class Program04 {
+    public static class DateBean {
+        public DateBean() {}
+
+        // read-only property
+        public String getCurrentDate() {
+            return LocalDate.now().toString();
+        }
+    }
+
+    public static void main(String[] args) {
+        DateBean d = new DateBean();
+        System.out.println("Today's date = " + d.getCurrentDate());
+    }
+}
+// Program05.java
+// JavaBean: UserBean with write-only property password
+public class Program05 {
+    public static class UserBean {
+        private String password; // write-only externally
+
+        public UserBean() {}
+
+        // No getter provided on purpose -> write-only
+        public void setPassword(String password) { this.password = password; }
+
+        // internal helper (e.g., for validation) - not exposed as a bean getter
+        public boolean checkPassword(String attempt) {
+            if (password == null) return false;
+            return password.equals(attempt);
+        }
+    }
+
+    public static void main(String[] args) {
+        UserBean u = new UserBean();
+        u.setPassword("s3cr3t");
+        System.out.println("Password check (correct) = " + u.checkPassword("s3cr3t"));
+        System.out.println("Password check (wrong) = " + u.checkPassword("nope"));
+    }
+}
+// Program06.java
+// AccountBean fires PropertyChangeEvent when balance changes; demo adding a listener.
+import java.beans.PropertyChangeListener;
+import java.beans.PropertyChangeSupport;
+
+public class Program06 {
+    public static class AccountBean {
+        private double balance;
+        private final PropertyChangeSupport pcs = new PropertyChangeSupport(this);
+
+        public AccountBean() {}
+
+        public double getBalance() { return balance; }
+
+        public void setBalance(double newBalance) {
+            double old = this.balance;
+            this.balance = newBalance;
+            pcs.firePropertyChange("balance", old, newBalance);
+        }
+
+        public void addPropertyChangeListener(PropertyChangeListener l) { pcs.addPropertyChangeListener(l); }
+        public void removePropertyChangeListener(PropertyChangeListener l) { pcs.removePropertyChangeListener(l); }
+    }
+
+    public static void main(String[] args) {
+        AccountBean acct = new AccountBean();
+
+        // Add a listener that prints message when balance changes
+        acct.addPropertyChangeListener(evt -> {
+            if ("balance".equals(evt.getPropertyName())) {
+                System.out.println("Account balance changed: old=" + evt.getOldValue() + ", new=" + evt.getNewValue());
+            }
+        });
+
+        // update balance to demonstrate firing
+        System.out.println("Setting balance to 1000.0");
+        acct.setBalance(1000.0);
+        System.out.println("Setting balance to 1500.0");
+        acct.setBalance(1500.0);
+    }
+}
+// Program07.java
+// Simple wrapper to demonstrate updating AccountBean balance (continuation of Program06)
+public class Program07 {
+    public static void main(String[] args) {
+        // reuse AccountBean code from Program06 (in real repo, import or put in same file/package)
+        Program06.AccountBean acct = new Program06.AccountBean();
+        acct.addPropertyChangeListener(evt -> System.out.println("Listener: " + evt.getOldValue() + " -> " + evt.getNewValue()));
+
+        acct.setBalance(2000.0); // fires
+        acct.setBalance(1250.0); // fires
+    }
+}
+// Program08.java
+// Use java.beans.Introspector to list properties and methods of StudentBean
+import java.beans.*;
+import java.lang.reflect.Method;
+
+public class Program08 {
+    public static void main(String[] args) throws Exception {
+        BeanInfo info = Introspector.getBeanInfo(Program01.StudentBean.class);
+        System.out.println("Properties of StudentBean:");
+        for (PropertyDescriptor pd : info.getPropertyDescriptors()) {
+            System.out.println("  " + pd.getName() + " -> " + pd.getPropertyType());
+        }
+        System.out.println("\nMethods of StudentBean:");
+        for (MethodDescriptor md : info.getMethodDescriptors()) {
+            Method m = md.getMethod();
+            System.out.println("  " + m.getName());
+        }
+    }
+}
+// Program09.java
+// CarBean with properties make, model, year and demo to set/get
+public class Program09 {
+    public static class CarBean {
+        private String make;
+        private String model;
+        private int year;
+
+        public CarBean() {}
+
+        public String getMake() { return make; }
+        public void setMake(String make) { this.make = make; }
+
+        public String getModel() { return model; }
+        public void setModel(String model) { this.model = model; }
+
+        public int getYear() { return year; }
+        public void setYear(int year) { this.year = year; }
+    }
+
+    public static void main(String[] args) {
+        CarBean car = new CarBean();
+        car.setMake("Toyota");
+        car.setModel("Corolla");
+        car.setYear(2019);
+
+        System.out.println("Car: " + car.getMake() + " " + car.getModel() + " (" + car.getYear() + ")");
+    }
+}
+// Program10.java
+// CircleBean with radius property and read-only computed properties area & circumference
+public class Program10 {
+    public static class CircleBean {
+        private double radius;
+
+        public CircleBean() {}
+
+        public double getRadius() { return radius; }
+        public void setRadius(double radius) { this.radius = radius; }
+
+        // read-only computed properties
+        public double getArea() { return Math.PI * radius * radius; }
+        public double getCircumference() { return 2 * Math.PI * radius; }
+    }
+
+    public static void main(String[] args) {
+        CircleBean c = new CircleBean();
+        c.setRadius(2.5);
+        System.out.println("Radius=" + c.getRadius() + ", Area=" + c.getArea() + ", Circumference=" + c.getCircumference());
+    }
+}
+// Program11.java
+// Display machine's IP address and host name using InetAddress
+import java.net.InetAddress;
+
+public class Program11 {
+    public static void main(String[] args) {
+        try {
+            InetAddress local = InetAddress.getLocalHost();
+            System.out.println("Host name: " + local.getHostName());
+            System.out.println("Host address (IP): " + local.getHostAddress());
+        } catch (Exception e) {
+            System.out.println("Unable to get local host info: " + e.getMessage());
+        }
+    }
+}
+// Program12.java
+// HelloServer: listens on TCP port 5000 and prints "Client connected" when a client connects.
+// Run this first, then run Program13 (HelloClient).
+import java.net.ServerSocket;
+import java.net.Socket;
+import java.io.IOException;
+
+public class Program12 {
+    public static void main(String[] args) {
+        final int PORT = 5000;
+        System.out.println("HelloServer starting on port " + PORT + " ...");
+        try (ServerSocket server = new ServerSocket(PORT)) {
+            while (true) {
+                Socket client = server.accept(); // blocks until client connects
+                System.out.println("Client connected from " + client.getRemoteSocketAddress());
+                // close client socket immediately for this demo
+                client.close();
+            }
+        } catch (IOException e) {
+            System.out.println("Server error: " + e.getMessage());
+        }
+    }
+}
+// Program13.java
+// HelloClient: connects to localhost:5000 and sends "Hello Server"
+import java.net.Socket;
+import java.io.PrintWriter;
+import java.io.IOException;
+
+public class Program13 {
+    public static void main(String[] args) {
+        final String HOST = "localhost";
+        final int PORT = 5000;
+
+        try (Socket socket = new Socket(HOST, PORT);
+             PrintWriter out = new PrintWriter(socket.getOutputStream(), true)) {
+
+            System.out.println("Connected to server " + HOST + ":" + PORT);
+            out.println("Hello Server");
+            System.out.println("Message sent: Hello Server");
+
+        } catch (IOException e) {
+            System.out.println("Client error: " + e.getMessage());
+        }
+    }
+}
+// Program14.java
+// HelloServer that reads a single line sent by client and prints it.
+// Run this, then run Program13 (HelloClient) to send "Hello Server".
+import java.net.ServerSocket;
+import java.net.Socket;
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.io.IOException;
+
+public class Program14 {
+    public static void main(String[] args) {
+        final int PORT = 5000;
+        System.out.println("HelloServer (reader) starting on port " + PORT + " ...");
+        try (ServerSocket server = new ServerSocket(PORT)) {
+            while (true) {
+                try (Socket client = server.accept();
+                     BufferedReader in = new BufferedReader(new InputStreamReader(client.getInputStream()))) {
+
+                    System.out.println("Client connected: " + client.getRemoteSocketAddress());
+                    String msg = in.readLine(); // read one line
+                    System.out.println("Received from client: " + msg);
+                } catch (IOException e) {
+                    System.out.println("Client handling error: " + e.getMessage());
+                }
+            }
+        } catch (IOException e) {
+            System.out.println("Server error: " + e.getMessage());
+        }
+    }
+}
+// Program15.java
+// EchoServer: listens on TCP port 5001, echoes each line sent by client.
+// For each client, it echoes until client closes connection.
+import java.net.ServerSocket;
+import java.net.Socket;
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.io.PrintWriter;
+import java.io.IOException;
+
+public class Program15 {
+    public static void main(String[] args) {
+        final int PORT = 5001;
+        System.out.println("EchoServer starting on port " + PORT + " ...");
+        try (ServerSocket server = new ServerSocket(PORT)) {
+            while (true) {
+                Socket client = server.accept();
+                System.out.println("Client connected: " + client.getRemoteSocketAddress());
+                new Thread(() -> {
+                    try (BufferedReader in = new BufferedReader(new InputStreamReader(client.getInputStream()));
+                         PrintWriter out = new PrintWriter(client.getOutputStream(), true)) {
+                        String line;
+                        while ((line = in.readLine()) != null) {
+                            System.out.println("Received: " + line + " from " + client.getRemoteSocketAddress());
+                            out.println(line); // echo back
+                        }
+                    } catch (IOException e) {
+                        System.out.println("Connection error with client: " + e.getMessage());
+                    } finally {
+                        try { client.close(); } catch (IOException ignored) {}
+                        System.out.println("Client connection closed: " + client.getRemoteSocketAddress());
+                    }
+                }).start();
+            }
+        } catch (IOException e) {
+            System.out.println("EchoServer error: " + e.getMessage());
+        }
+    }
+}
+// Program16.java
+// UDP MessageSender: sends "Ping" to localhost:6000
+import java.net.DatagramSocket;
+import java.net.DatagramPacket;
+import java.net.InetAddress;
+
+public class Program16 {
+    public static void main(String[] args) {
+        final int PORT = 6000;
+        final String HOST = "localhost";
+        try (DatagramSocket socket = new DatagramSocket()) {
+            byte[] data = "Ping".getBytes("UTF-8");
+            InetAddress addr = InetAddress.getByName(HOST);
+            DatagramPacket packet = new DatagramPacket(data, data.length, addr, PORT);
+            socket.send(packet);
+            System.out.println("Sent UDP message 'Ping' to " + HOST + ":" + PORT);
+        } catch (Exception e) {
+            System.out.println("UDP send error: " + e.getMessage());
+        }
+    }
+}
+// Program17.java
+// UDP MessageReceiver: listens on port 6000 and prints any received message
+import java.net.DatagramSocket;
+import java.net.DatagramPacket;
+
+public class Program17 {
+    public static void main(String[] args) {
+        final int PORT = 6000;
+        System.out.println("UDP MessageReceiver listening on port " + PORT + " ...");
+        try (DatagramSocket socket = new DatagramSocket(PORT)) {
+            byte[] buf = new byte[1024];
+            DatagramPacket packet = new DatagramPacket(buf, buf.length);
+            while (true) {
+                socket.receive(packet); // blocks
+                String msg = new String(packet.getData(), 0, packet.getLength(), "UTF-8");
+                System.out.println("Received from " + packet.getAddress() + ":" + packet.getPort() + " -> " + msg);
+            }
+        } catch (Exception e) {
+            System.out.println("UDP receive error: " + e.getMessage());
+        }
+    }
+}
+// Program18.java
+// WebReader: read and print content of http://example.com
+import java.net.URL;
+import java.net.URLConnection;
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+
+public class Program18 {
+    public static void main(String[] args) {
+        String urlStr = "http://example.com";
+        System.out.println("Reading from: " + urlStr);
+        try {
+            URL url = new URL(urlStr);
+            URLConnection conn = url.openConnection();
+            try (BufferedReader in = new BufferedReader(new InputStreamReader(conn.getInputStream()))) {
+                String line;
+                while ((line = in.readLine()) != null) {
+                    System.out.println(line);
+                }
+            }
+        } catch (Exception e) {
+            System.out.println("Error reading from URL: " + e.getMessage());
+        }
+    }
+}// Program19.java
+// FileDownloader: download https://www.example.com/sample.txt to local file sample.txt
+// NOTE: make sure URL exists; change URL/local path as needed.
+import java.net.URL;
+import java.net.URLConnection;
+import java.io.InputStream;
+import java.io.FileOutputStream;
+import java.io.BufferedInputStream;
+import java.io.IOException;
+
+public class Program19 {
+    public static void main(String[] args) {
+        String remote = "https://www.example.com/sample.txt"; // change to a valid file URL
+        String local = "sample.txt";
+        System.out.println("Downloading " + remote + " -> " + local);
+        try {
+            URL url = new URL(remote);
+            URLConnection conn = url.openConnection();
+            try (InputStream in = new BufferedInputStream(conn.getInputStream());
+                 FileOutputStream out = new FileOutputStream(local)) {
+
+                byte[] buf = new byte[8192];
+                int n;
+                while ((n = in.read(buf)) != -1) {
+                    out.write(buf, 0, n);
+                }
+                System.out.println("Download complete.");
+            }
+        } catch (IOException e) {
+            System.out.println("Download error: " + e.getMessage());
+        }
+    }
+}
+// Program20.java
+// MultiClientServer: listens on TCP port 5002 and handles each client in a new thread.
+// Each client should send one line; server prints it with the client's thread name.
+import java.net.ServerSocket;
+import java.net.Socket;
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.io.IOException;
+
+public class Program20 {
+    public static void main(String[] args) {
+        final int PORT = 5002;
+        System.out.println("MultiClientServer starting on port " + PORT + " ...");
+        try (ServerSocket server = new ServerSocket(PORT)) {
+            while (true) {
+                final Socket client = server.accept();
+                new Thread(() -> {
+                    String threadName = Thread.currentThread().getName();
+                    System.out.println(threadName + " connected: " + client.getRemoteSocketAddress());
+                    try (BufferedReader in = new BufferedReader(new InputStreamReader(client.getInputStream()))) {
+                        String msg = in.readLine();
+                        System.out.println(threadName + " received: " + msg);
+                    } catch (IOException e) {
+                        System.out.println(threadName + " I/O error: " + e.getMessage());
+                    } finally {
+                        try { client.close(); } catch (IOException ignored) {}
+                    }
+                }, "ClientHandler-" + client.getPort()).start();
+            }
+        } catch (IOException e) {
+            System.out.println("Server error: " + e.getMessage());
+        }
+    }
+}
+
 
