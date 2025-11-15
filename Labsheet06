@@ -1,1 +1,878 @@
+// Program01.java
+// Superclass Animal with sound(); subclass Dog overrides sound()
+public class Program01 {
+    static class Animal {
+        public void sound() {
+            System.out.println("Some generic animal sound");
+        }
+    }
+
+    static class Dog extends Animal {
+        @Override
+        public void sound() {
+            System.out.println("Bark");
+        }
+    }
+
+    public static void main(String[] args) {
+        Animal a = new Animal();
+        a.sound();              // superclass method
+
+        Dog d = new Dog();
+        d.sound();              // overridden method in subclass
+
+        // Polymorphism: Animal reference to Dog object
+        Animal poly = new Dog();
+        poly.sound();
+    }
+}
+// Program02.java
+// Superclass Person with constructor; subclass Student calls super()
+public class Program02 {
+    static class Person {
+        String name;
+        public Person(String name) {
+            this.name = name;
+            System.out.println("Person constructor called for: " + name);
+        }
+    }
+
+    static class Student extends Person {
+        public Student(String name) {
+            super(name); // call superclass constructor
+            System.out.println("Student object created for: " + name);
+        }
+    }
+
+    public static void main(String[] args) {
+        Student s = new Student("Riya");
+        // output demonstrates constructor chaining and name printing
+    }
+}
+// Program03.java
+// Superclass Shape with area(); subclass Circle overrides area()
+public class Program03 {
+    static class Shape {
+        public double area() {
+            return 0.0;
+        }
+    }
+
+    static class Circle extends Shape {
+        double radius;
+        public Circle(double radius) { this.radius = radius; }
+
+        @Override
+        public double area() {
+            return Math.PI * radius * radius;
+        }
+    }
+
+    public static void main(String[] args) {
+        Shape s = new Shape();
+        System.out.println("Shape area (generic) = " + s.area());
+
+        Circle c = new Circle(2.5);
+        System.out.println("Circle area = " + c.area());
+    }
+}
+// Program04.java
+// Vehicle with move(); Car inherits move()
+public class Program04 {
+    static class Vehicle {
+        public void move() {
+            System.out.println("Vehicle is moving");
+        }
+    }
+
+    static class Car extends Vehicle {
+        // inherits move() without overriding
+    }
+
+    public static void main(String[] args) {
+        Car car = new Car();
+        car.move(); // calls inherited method
+    }
+}
+// Program05.java
+// Employee with constructor (id, name); Manager calls superclass constructor
+public class Program05 {
+    static class Employee {
+        int id;
+        String name;
+        public Employee(int id, String name) {
+            this.id = id; this.name = name;
+            System.out.println("Employee constructed: " + id + ", " + name);
+        }
+    }
+
+    static class Manager extends Employee {
+        public Manager(int id, String name) {
+            super(id, name); // call superclass constructor
+            System.out.println("Manager constructed using Employee constructor values.");
+        }
+    }
+
+    public static void main(String[] args) {
+        Manager m = new Manager(201, "Sandeep");
+        // prints id and name via constructor chain
+    }
+}
+// Program06.java
+// Accessing superclass variable in subclass constructor
+public class Program06 {
+    static class Employee {
+        String name;
+        public Employee(String name) {
+            this.name = name;
+        }
+    }
+
+    static class Manager extends Employee {
+        public Manager(String name) {
+            super(name);
+            // access superclass variable 'name' here
+            System.out.println("Manager's name (from superclass variable) = " + super.name);
+        }
+    }
+
+    public static void main(String[] args) {
+        Manager mgr = new Manager("Anita");
+    }
+}
+// Program07.java
+// Book with two constructors; Magazine subclass calls both constructors using super()
+public class Program07 {
+    static class Book {
+        String title;
+        String author;
+        public Book() {
+            this.title = "Untitled"; this.author = "Unknown";
+            System.out.println("Book(): default constructor called");
+        }
+        public Book(String title, String author) {
+            this.title = title; this.author = author;
+            System.out.println("Book(title,author): " + title + " by " + author);
+        }
+    }
+
+    static class Magazine extends Book {
+        public Magazine() {
+            super(); // calls Book()
+            System.out.println("Magazine(): called Book() via super()");
+        }
+
+        public Magazine(String title, String author) {
+            super(title, author); // calls Book(title,author)
+            System.out.println("Magazine(title,author): called Book(title,author) via super()");
+        }
+    }
+
+    public static void main(String[] args) {
+        System.out.println("Creating magazine with default constructor:");
+        Magazine m1 = new Magazine();
+
+        System.out.println("\nCreating magazine with parameterized constructor:");
+        Magazine m2 = new Magazine("TechToday", "Editorial Team");
+    }
+}
+// Program08.java
+// Calculator with overloaded add(); AdvancedCalculator calls both methods
+public class Program08 {
+    static class Calculator {
+        public int add(int a, int b) {
+            return a + b;
+        }
+        public double add(double a, double b) {
+            return a + b;
+        }
+    }
+
+    static class AdvancedCalculator extends Calculator {
+        public void demonstrate() {
+            int iRes = add(5, 7);         // calls int version
+            double dRes = add(2.5, 3.5);  // calls double version
+            System.out.println("int add result = " + iRes);
+            System.out.println("double add result = " + dRes);
+        }
+    }
+
+    public static void main(String[] args) {
+        AdvancedCalculator ac = new AdvancedCalculator();
+        ac.demonstrate();
+    }
+}
+// Program09.java
+// Private methods are not inherited: Employee has private display(); Manager cannot call it directly
+public class Program09 {
+    static class Employee {
+        private void display() {
+            System.out.println("Employee private display()");
+        }
+        // public wrapper that calls private method
+        public void showPrivate() {
+            display();
+        }
+    }
+
+    static class Manager extends Employee {
+        // Manager cannot access Employee.display() directly because it's private.
+        // Manager can define its own display() method; this does not override Employee.display()
+        public void display() {
+            System.out.println("Manager's own display()");
+        }
+    }
+
+    public static void main(String[] args) {
+        Manager m = new Manager();
+        // This calls the Employee's private method through the public wrapper:
+        m.showPrivate();
+        // This calls Manager's own display method:
+        m.display();
+    }
+}
+// Program10.java
+// Superclass Car with protected startEngine(); subclass ElectricCar accesses it
+public class Program10 {
+    static class Car {
+        protected void startEngine() {
+            System.out.println("Engine started (Car)");
+        }
+    }
+
+    static class ElectricCar extends Car {
+        public void start() {
+            // can access protected method from superclass
+            startEngine();
+            System.out.println("ElectricCar-specific startup steps");
+        }
+    }
+
+    public static void main(String[] args) {
+        ElectricCar ec = new ElectricCar();
+        ec.start();
+    }
+}
+// Program11.java
+// Multi-level inheritance: Animal -> Mammal -> Dog. Dog calls eat() from Animal and prints a message.
+public class Program11 {
+    static class Animal {
+        public void eat() {
+            System.out.println("Animal is eating");
+        }
+    }
+
+    static class Mammal extends Animal {
+        public void mammalInfo() {
+            System.out.println("Mammal characteristics...");
+        }
+    }
+
+    static class Dog extends Mammal {
+        public void doEat() {
+            // call grandparent (Animal) method eat()
+            super.eat(); // Mammal inherits eat(), so this invokes Animal.eat()
+            System.out.println("Dog is eating");
+        }
+    }
+
+    public static void main(String[] args) {
+        Dog d = new Dog();
+        d.doEat();
+    }
+}
+// Program12.java
+// Constructor chaining in multi-level inheritance: Vehicle -> Car -> ElectricCar
+public class Program12 {
+    static class Vehicle {
+        String vehicleType;
+        public Vehicle(String vehicleType) {
+            this.vehicleType = vehicleType;
+            System.out.println("Vehicle constructor: vehicleType = " + vehicleType);
+        }
+    }
+
+    static class Car extends Vehicle {
+        String carType;
+        public Car(String vehicleType, String carType) {
+            super(vehicleType); // call Vehicle constructor
+            this.carType = carType;
+            System.out.println("Car constructor: carType = " + carType);
+        }
+    }
+
+    static class ElectricCar extends Car {
+        public ElectricCar(String vehicleType, String carType) {
+            super(vehicleType, carType); // chain to Car -> Vehicle
+            System.out.println("ElectricCar constructor finished.");
+        }
+    }
+
+    public static void main(String[] args) {
+        ElectricCar ec = new ElectricCar("Four-wheeler", "Sedan");
+    }
+}
+// Program13.java
+// Method overriding in multi-level inheritance: Animal -> Mammal -> Dog with different sound()
+public class Program13 {
+    static class Animal {
+        public void sound() {
+            System.out.println("Some animal sound");
+        }
+    }
+
+    static class Mammal extends Animal {
+        @Override
+        public void sound() {
+            System.out.println("Growl");
+        }
+    }
+
+    static class Dog extends Mammal {
+        @Override
+        public void sound() {
+            System.out.println("Bark");
+        }
+    }
+
+    public static void main(String[] args) {
+        Animal a = new Animal();
+        a.sound();
+
+        Mammal m = new Mammal();
+        m.sound();
+
+        Dog d = new Dog();
+        d.sound();
+
+        // Polymorphism
+        Animal poly = new Dog();
+        poly.sound(); // Bark
+    }
+}
+// Program14.java
+// Accessing grandparent (Vehicle) method inside ElectricCar: Vehicle -> Car (overrides) -> ElectricCar
+public class Program14 {
+    static class Vehicle {
+        public void start() {
+            System.out.println("Vehicle start()");
+        }
+    }
+
+    static class Car extends Vehicle {
+        @Override
+        public void start() {
+            System.out.println("Car start() - pre-checks");
+            super.start(); // call Vehicle.start()
+            System.out.println("Car start() - post-checks");
+        }
+    }
+
+    static class ElectricCar extends Car {
+        public void performStart() {
+            // calling start() on ElectricCar will invoke Car.start(),
+            // which internally calls Vehicle.start(), so Vehicle method is executed.
+            start();
+        }
+    }
+
+    public static void main(String[] args) {
+        ElectricCar ec = new ElectricCar();
+        ec.performStart(); // demonstrates calling grandparent's behavior via chain
+    }
+}
+// Program15.java
+// Hierarchical inheritance: Shape -> Circle, Square; each overrides draw()
+public class Program15 {
+    static class Shape {
+        public void draw() {
+            System.out.println("Drawing a generic shape");
+        }
+    }
+
+    static class Circle extends Shape {
+        @Override
+        public void draw() {
+            System.out.println("Drawing a Circle");
+        }
+    }
+
+    static class Square extends Shape {
+        @Override
+        public void draw() {
+            System.out.println("Drawing a Square");
+        }
+    }
+
+    public static void main(String[] args) {
+        Shape s1 = new Circle();
+        Shape s2 = new Square();
+
+        s1.draw();
+        s2.draw();
+    }
+}
+// Program16.java
+// Hierarchical constructor calling: Employee -> FullTimeEmployee, PartTimeEmployee
+public class Program16 {
+    static class Employee {
+        int id;
+        String name;
+        public Employee(int id, String name) {
+            this.id = id; this.name = name;
+            System.out.println("Employee(): id=" + id + ", name=" + name);
+        }
+    }
+
+    static class FullTimeEmployee extends Employee {
+        public FullTimeEmployee(int id, String name) {
+            super(id, name);
+            System.out.println("FullTimeEmployee constructed.");
+        }
+    }
+
+    static class PartTimeEmployee extends Employee {
+        public PartTimeEmployee(int id, String name) {
+            super(id, name);
+            System.out.println("PartTimeEmployee constructed.");
+        }
+    }
+
+    public static void main(String[] args) {
+        FullTimeEmployee f = new FullTimeEmployee(301, "Karan");
+        PartTimeEmployee p = new PartTimeEmployee(302, "Meera");
+    }
+}
+// Program17.java
+// Multiple inheritance via interfaces: Printable and Scannable -> MultiFunctionPrinter implements both
+public class Program17 {
+    interface Printable {
+        void print(String doc);
+    }
+
+    interface Scannable {
+        void scan(String doc);
+    }
+
+    static class MultiFunctionPrinter implements Printable, Scannable {
+        @Override
+        public void print(String doc) {
+            System.out.println("Printing: " + doc);
+        }
+        @Override
+        public void scan(String doc) {
+            System.out.println("Scanning: " + doc);
+        }
+    }
+
+    public static void main(String[] args) {
+        MultiFunctionPrinter mfp = new MultiFunctionPrinter();
+        mfp.print("Assignment.pdf");
+        mfp.scan("Page1");
+    }
+}
+// Program18.java
+// Interface method conflict: two interfaces A and B with default show(); class C resolves by overriding
+public class Program18 {
+    interface A {
+        default void show() {
+            System.out.println("A.show()");
+        }
+    }
+
+    interface B {
+        default void show() {
+            System.out.println("B.show()");
+        }
+    }
+
+    static class C implements A, B {
+        // resolve conflict by overriding and choosing which super to call if needed
+        @Override
+        public void show() {
+            System.out.println("C.show() -> resolving conflict");
+            // Optionally call a specific interface default:
+            A.super.show(); // calls A.show()
+            B.super.show(); // calls B.show()
+        }
+    }
+
+    public static void main(String[] args) {
+        C obj = new C();
+        obj.show();
+    }
+}
+// Program19.java
+// Hybrid inheritance with class and interface: Animal (class) + Flyable (interface) -> Bird
+public class Program19 {
+    static class Animal {
+        public void eat() {
+            System.out.println("Animal eat()");
+        }
+    }
+
+    interface Flyable {
+        void fly();
+    }
+
+    static class Bird extends Animal implements Flyable {
+        @Override
+        public void fly() {
+            System.out.println("Bird is flying");
+        }
+
+        public void showBehavior() {
+            eat(); // inherited method
+            fly(); // interface implementation
+        }
+    }
+
+    public static void main(String[] args) {
+        Bird b = new Bird();
+        b.showBehavior();
+    }
+}
+// Program20.java
+// Method resolution in hybrid inheritance: Vehicle class and RemoteControl interface both have start()
+public class Program20 {
+    static class Vehicle {
+        public void start() {
+            System.out.println("Vehicle.start()");
+        }
+    }
+
+    interface RemoteControl {
+        default void start() {
+            System.out.println("RemoteControl.start()");
+        }
+    }
+
+    static class Car extends Vehicle implements RemoteControl {
+        // Must resolve conflict: explicitly override start() to decide behavior
+        @Override
+        public void start() {
+            System.out.println("Car.start() - resolves conflict");
+            // call Vehicle's start:
+            super.start();
+            // optionally call RemoteControl's default implementation:
+            RemoteControl.super.start();
+        }
+    }
+
+    public static void main(String[] args) {
+        Car car = new Car();
+        car.start();
+    }
+}
+// Program21.java
+// Machine (superclass), Electrical (interface with default powerOn), WashingMachine extends Machine implements Electrical
+public class Program21 {
+    static class Machine {
+        public Machine() {
+            System.out.println("Machine: constructor called");
+        }
+    }
+
+    interface Electrical {
+        default void powerOn() {
+            System.out.println("Electrical: powerOn (default)");
+        }
+    }
+
+    static class WashingMachine extends Machine implements Electrical {
+        public WashingMachine() {
+            super(); // calls Machine constructor (constructor chaining)
+            System.out.println("WashingMachine: constructor called");
+        }
+
+        public void start() {
+            // call default method from interface
+            powerOn();
+            System.out.println("WashingMachine: starting wash cycle");
+        }
+    }
+
+    public static void main(String[] args) {
+        WashingMachine wm = new WashingMachine();
+        wm.start();
+    }
+}
+// Program22.java
+// Abstract Shape with area(); Circle and Rectangle override; demonstrate polymorphism
+public class Program22 {
+    abstract static class Shape {
+        abstract double area();
+    }
+
+    static class Circle extends Shape {
+        double radius;
+        public Circle(double r) { this.radius = r; }
+        @Override
+        double area() { return Math.PI * radius * radius; }
+    }
+
+    static class Rectangle extends Shape {
+        double length, breadth;
+        public Rectangle(double l, double b) { this.length = l; this.breadth = b; }
+        @Override
+        double area() { return length * breadth; }
+    }
+
+    public static void main(String[] args) {
+        Shape s1 = new Circle(2.0);
+        Shape s2 = new Rectangle(3.0, 4.0);
+
+        System.out.println("Circle area = " + s1.area());
+        System.out.println("Rectangle area = " + s2.area());
+    }
+}
+// Program23.java
+// Two interfaces A and B each with default calculate(); Calculator implements both and resolves conflict
+public class Program23 {
+    interface A {
+        default void calculate() {
+            System.out.println("A.calculate()");
+        }
+    }
+
+    interface B {
+        default void calculate() {
+            System.out.println("B.calculate()");
+        }
+    }
+
+    static class Calculator implements A, B {
+        @Override
+        public void calculate() {
+            System.out.println("Calculator.calculate() -> resolving conflict");
+            // choose to call both for demonstration
+            A.super.calculate();
+            B.super.calculate();
+            System.out.println("Calculator: combined calculation done");
+        }
+    }
+
+    public static void main(String[] args) {
+        Calculator calc = new Calculator();
+        calc.calculate();
+    }
+}
+// Program24.java
+// Animal class with eat(); Flyable interface with fly(); Bird extends Animal and implements Flyable
+public class Program24 {
+    static class Animal {
+        public void eat() {
+            System.out.println("Animal: eating");
+        }
+    }
+
+    interface Flyable {
+        void fly();
+    }
+
+    static class Bird extends Animal implements Flyable {
+        @Override
+        public void fly() {
+            System.out.println("Bird: flying");
+        }
+
+        public void showBehavior() {
+            eat(); // inherited method
+            fly(); // interface implementation
+        }
+    }
+
+    public static void main(String[] args) {
+        Bird b = new Bird();
+        b.showBehavior();
+    }
+}
+// Program25.java
+// Polymorphism: Employee -> Manager & Developer override work(), use superclass reference
+public class Program25 {
+    static class Employee {
+        public void work() {
+            System.out.println("Employee: working (general)");
+        }
+    }
+
+    static class Manager extends Employee {
+        @Override
+        public void work() {
+            System.out.println("Manager: planning and managing");
+        }
+    }
+
+    static class Developer extends Employee {
+        @Override
+        public void work() {
+            System.out.println("Developer: writing code");
+        }
+    }
+
+    public static void main(String[] args) {
+        Employee e1 = new Manager();
+        Employee e2 = new Developer();
+
+        e1.work(); // Manager.work()
+        e2.work(); // Developer.work()
+    }
+}
+// Program26.java
+// Constructor resolution in multi-level inheritance: Person -> Employee -> Manager
+public class Program26 {
+    static class Person {
+        public Person(String name) {
+            System.out.println("Person constructor: name = " + name);
+        }
+    }
+
+    static class Employee extends Person {
+        public Employee(String name, int id) {
+            super(name); // calls Person(name)
+            System.out.println("Employee constructor: id = " + id);
+        }
+    }
+
+    static class Manager extends Employee {
+        public Manager(String name, int id, String dept) {
+            super(name, id); // calls Employee(name,id) -> Person(name)
+            System.out.println("Manager constructor: dept = " + dept);
+        }
+    }
+
+    public static void main(String[] args) {
+        Manager m = new Manager("Kavita", 401, "Sales");
+    }
+}
+
+// Program27.java
+// Diamond problem resolution with two interfaces A and B that have same default show(); class C resolves conflict
+public class Program27 {
+    interface A {
+        default void show() {
+            System.out.println("A.show()");
+        }
+    }
+
+    interface B {
+        default void show() {
+            System.out.println("B.show()");
+        }
+    }
+
+    static class C implements A, B {
+        @Override
+        public void show() {
+            System.out.println("C.show(): resolving diamond/default-method conflict");
+            // choose one or both implementations
+            A.super.show();
+            B.super.show();
+        }
+    }
+
+    public static void main(String[] args) {
+        C c = new C();
+        c.show();
+    }
+}
+// Program28.java
+// Abstract Vehicle with constructor and abstract start(); Car and Truck implement start() and call super constructor
+public class Program28 {
+    abstract static class Vehicle {
+        public Vehicle() {
+            System.out.println("Vehicle: constructor called");
+        }
+        abstract void start();
+    }
+
+    static class Car extends Vehicle {
+        public Car() {
+            super(); // calls abstract class constructor
+            System.out.println("Car: constructor called");
+        }
+        @Override
+        void start() {
+            System.out.println("Car: start engine");
+        }
+    }
+
+    static class Truck extends Vehicle {
+        public Truck() {
+            super();
+            System.out.println("Truck: constructor called");
+        }
+        @Override
+        void start() {
+            System.out.println("Truck: start heavy-duty engine");
+        }
+    }
+
+    public static void main(String[] args) {
+        Vehicle v1 = new Car();
+        v1.start();
+        Vehicle v2 = new Truck();
+        v2.start();
+    }
+}
+// Program29.java
+// Access control in inherited methods: Employee has private calculateSalary(); Manager cannot access it directly
+public class Program29 {
+    static class Employee {
+        private double calculateSalary() {
+            // private method - internal calculation
+            System.out.println("Employee: private calculateSalary() invoked");
+            return 50000.0; // sample computed value
+        }
+        // Public method that exposes result of private method
+        public double getSalary() {
+            // can call private method within the class
+            return calculateSalary();
+        }
+    }
+
+    static class Manager extends Employee {
+        // Manager cannot call calculateSalary() directly (it's private),
+        // but can call getSalary() which internally uses the private method.
+        public void showSalary() {
+            double sal = getSalary(); // allowed
+            System.out.println("Manager: salary accessed via public method = " + sal);
+        }
+    }
+
+    public static void main(String[] args) {
+        Manager mgr = new Manager();
+        mgr.showSalary();
+    }
+}
+// Program30.java
+// Driveable interface and Vehicle class move(); ElectricCar extends Vehicle and implements Driveable
+public class Program30 {
+    interface Driveable {
+        void drive();
+    }
+
+    static class Vehicle {
+        public void move() {
+            System.out.println("Vehicle: moving");
+        }
+    }
+
+    static class ElectricCar extends Vehicle implements Driveable {
+        @Override
+        public void drive() {
+            System.out.println("ElectricCar: driving silently");
+        }
+
+        public void showAll() {
+            move();   // from Vehicle
+            drive();  // from Driveable implementation
+        }
+    }
+
+    public static void main(String[] args) {
+        ElectricCar ec = new ElectricCar();
+        ec.showAll();
+    }
+}
 
