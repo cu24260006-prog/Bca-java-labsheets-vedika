@@ -1,1 +1,903 @@
+// Program01.java
+// What happens when a number is divided by zero? Handle with try-catch.
+import java.util.Scanner;
+public class Program01 {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        System.out.print("Enter numerator (int): ");
+        int a = sc.nextInt();
+        System.out.print("Enter denominator (int): ");
+        int b = sc.nextInt();
+        try {
+            int res = a / b;               // may throw ArithmeticException
+            System.out.println("Result = " + res);
+        } catch (ArithmeticException e) {
+            System.out.println("Error: Division by zero is not allowed.");
+        }
+        sc.close();
+    }
+}
 
+// Program02.java
+// Show ArrayIndexOutOfBoundsException
+public class Program02 {
+    public static void main(String[] args) {
+        int[] arr = {10, 20, 30};
+        try {
+            // intentionally accessing invalid index
+            System.out.println("Accessing index 5: " + arr[5]);
+        } catch (ArrayIndexOutOfBoundsException e) {
+            System.out.println("Caught ArrayIndexOutOfBoundsException: " + e.getMessage());
+        }
+        System.out.println("Program continues after exception handling.");
+    }
+}
+// Program03.java
+// finally always executes (illustration)
+public class Program03 {
+    public static void main(String[] args) {
+        try {
+            System.out.println("Inside try: about to throw an exception");
+            throw new RuntimeException("Demo exception");
+        } catch (RuntimeException e) {
+            System.out.println("Inside catch: " + e.getMessage());
+        } finally {
+            System.out.println("Inside finally: always executed");
+        }
+        System.out.println("After try-catch-finally block.");
+    }
+}
+// InvalidAgeException.java
+// (Save this file as InvalidAgeException.java or include it above Program04 in same package)
+public class InvalidAgeException extends Exception {
+    public InvalidAgeException(String msg) {
+        super(msg);
+    }
+}
+// Program04.java
+// Use InvalidAgeException to validate age
+import java.util.Scanner;
+public class Program04 {
+    public static void checkAge(int age) throws InvalidAgeException {
+        if (age < 18) throw new InvalidAgeException("Age must be >= 18. Provided: " + age);
+    }
+
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        System.out.print("Enter age: ");
+        int age = sc.nextInt();
+        try {
+            checkAge(age);
+            System.out.println("Age is valid. Proceed.");
+        } catch (InvalidAgeException e) {
+            System.out.println("InvalidAgeException caught: " + e.getMessage());
+        }
+        sc.close();
+    }
+}
+// Program05.java
+// Handle NumberFormatException and ArithmeticException in multiple catch blocks
+import java.util.Scanner;
+public class Program05 {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        System.out.print("Enter integer (as string): ");
+        String s = sc.next();
+        System.out.print("Enter divisor (int): ");
+        int div = sc.nextInt();
+        try {
+            int x = Integer.parseInt(s);    // may throw NumberFormatException
+            int r = x / div;                // may throw ArithmeticException
+            System.out.println("Result = " + r);
+        } catch (NumberFormatException e) {
+            System.out.println("NumberFormatException: invalid integer string.");
+        } catch (ArithmeticException e) {
+            System.out.println("ArithmeticException: " + e.getMessage());
+        }
+        sc.close();
+    }
+}
+// File: mypkg/Util.java
+package mypkg;
+
+public class Util {
+    public static int square(int x) {
+        return x * x;
+    }
+
+    public static String hello(String name) {
+        return "Hello, " + name;
+    }
+}
+// Program06.java
+// Access user-defined package 'mypkg'
+import mypkg.Util;   // import the class from user-defined package
+import java.util.Scanner;
+
+public class Program06 {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        System.out.print("Enter a number to square: ");
+        int n = sc.nextInt();
+        System.out.println("Square = " + Util.square(n));
+        System.out.print("Enter your name: ");
+        String name = sc.next();
+        System.out.println(Util.hello(name));
+        sc.close();
+    }
+}
+// Program07.java
+// Using java.lang.Math (no import required because java.lang is auto-imported)
+import java.util.Scanner;
+
+public class Program07 {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        System.out.print("Enter radius (double): ");
+        double r = sc.nextDouble();
+        double area = Math.PI * Math.pow(r, 2);   // Math.pow from java.lang.Math
+        double root = Math.sqrt(2.0);
+        System.out.println("Area of circle = " + area);
+        System.out.println("Square root of 2 (Math.sqrt) = " + root);
+        sc.close();
+    }
+}
+// Program08.java
+// Create a thread using Thread class
+public class Program08 {
+    static class MyThread extends Thread {
+        public void run() {
+            for (int i = 1; i <= 5; i++) {
+                System.out.println("MyThread running: i=" + i);
+                try { Thread.sleep(200); } catch (InterruptedException e) { /* ignore */ }
+            }
+        }
+    }
+
+    public static void main(String[] args) {
+        MyThread t = new MyThread();
+        t.start(); // invokes run in a new thread
+        System.out.println("Main thread finished starting MyThread.");
+    }
+}
+
+// Program09.java
+// Create a thread by implementing Runnable
+public class Program09 {
+    static class Worker implements Runnable {
+        @Override
+        public void run() {
+            for (int i = 1; i <= 5; i++) {
+                System.out.println(Thread.currentThread().getName() + " -> step " + i);
+                try { Thread.sleep(150); } catch (InterruptedException e) { /* ignore */ }
+            }
+        }
+    }
+
+    public static void main(String[] args) {
+        Thread t = new Thread(new Worker(), "Worker-1");
+        t.start();
+        System.out.println("Main thread: Worker-1 started.");
+    }
+}
+// Program10.java
+// Print thread name and priority
+public class Program10 {
+    static class InfoThread extends Thread {
+        public InfoThread(String name, int priority) {
+            super(name);
+            setPriority(priority); // may throw IllegalArgumentException if out of range
+        }
+        @Override
+        public void run() {
+            System.out.println("Thread name: " + getName() + ", Priority: " + getPriority());
+        }
+    }
+
+    public static void main(String[] args) {
+        InfoThread t1 = new InfoThread("T-High", Thread.MAX_PRIORITY);
+        InfoThread t2 = new InfoThread("T-Norm", Thread.NORM_PRIORITY);
+        InfoThread t3 = new InfoThread("T-Low", Thread.MIN_PRIORITY);
+
+        t1.start();
+        t2.start();
+        t3.start();
+
+        // Also show main thread info
+        System.out.println("Main thread: " + Thread.currentThread().getName() + ", priority = " + Thread.currentThread().getPriority());
+    }
+}
+// Program11.java
+// Demonstrate start(), sleep(), and join()
+public class Program11 {
+    static class Worker extends Thread {
+        public Worker(String name) { super(name); }
+        public void run() {
+            try {
+                for (int i = 1; i <= 5; i++) {
+                    System.out.println(getName() + " - step " + i);
+                    Thread.sleep(200); // small sleep to show interleaving
+                }
+            } catch (InterruptedException e) {
+                System.out.println(getName() + " interrupted");
+            }
+        }
+    }
+
+    public static void main(String[] args) {
+        Worker t1 = new Worker("T1");
+        Worker t2 = new Worker("T2");
+
+        t1.start();        // runnable -> running
+        try { Thread.sleep(100); } catch (InterruptedException e) { /* ignore */ }
+        t2.start();        // start second thread
+
+        // Wait for t1 to finish before continuing
+        try {
+            t1.join();
+            System.out.println("T1 has finished; main resumes and waits for T2");
+            t2.join();
+        } catch (InterruptedException e) {
+            System.out.println("Main interrupted while joining");
+        }
+
+        System.out.println("Both threads finished. Exiting main.");
+    }
+}
+// Program12.java
+// Demonstrate interrupting a thread and handling InterruptedException
+public class Program12 {
+    static class Sleeper extends Thread {
+        public Sleeper(String name) { super(name); }
+        public void run() {
+            try {
+                System.out.println(getName() + " going to sleep for 5s...");
+                Thread.sleep(5000); // long sleep to allow interruption
+                System.out.println(getName() + " woke normally.");
+            } catch (InterruptedException e) {
+                System.out.println(getName() + " was interrupted during sleep.");
+                // restore interrupt status if needed: Thread.currentThread().interrupt();
+            }
+        }
+    }
+
+    public static void main(String[] args) {
+        Sleeper s = new Sleeper("Sleeper-Thread");
+        s.start();
+
+        try { Thread.sleep(1000); } catch (InterruptedException e) { /* ignore */ }
+
+        System.out.println("Main: interrupting sleeper thread now.");
+        s.interrupt(); // request interruption
+
+        try {
+            s.join();
+        } catch (InterruptedException e) { /* ignore */ }
+
+        System.out.println("Main: sleeper thread terminated.");
+    }
+}
+// Program13.java
+// Two threads increment a shared counter using synchronized method
+public class Program13 {
+    static class SafeCounter {
+        private int count = 0;
+        public synchronized void increment() {
+            count++;
+        }
+        public synchronized int get() {
+            return count;
+        }
+    }
+
+    static class IncThread extends Thread {
+        private final SafeCounter counter;
+        private final int times;
+        public IncThread(SafeCounter c, int times, String name) { super(name); this.counter = c; this.times = times; }
+        public void run() {
+            for (int i = 0; i < times; i++) {
+                counter.increment();
+                try { Thread.sleep(1); } catch (InterruptedException e) { /* ignore */ }
+            }
+            System.out.println(getName() + " finished");
+        }
+    }
+
+    public static void main(String[] args) {
+        SafeCounter counter = new SafeCounter();
+        Thread t1 = new IncThread(counter, 1000, "Inc-1");
+        Thread t2 = new IncThread(counter, 1000, "Inc-2");
+
+        t1.start(); t2.start();
+        try { t1.join(); t2.join(); } catch (InterruptedException e) { /* ignore */ }
+
+        System.out.println("Final counter value = " + counter.get() + " (expected 2000)");
+    }
+}
+// Program14.java
+// Simple producer-consumer using wait() and notify()
+public class Program14 {
+    static class Drop {
+        private Integer item = null;
+        public synchronized void put(int value) throws InterruptedException {
+            while (item != null) wait(); // wait until slot is free
+            item = value;
+            System.out.println("Produced: " + value);
+            notify(); // notify a waiting consumer
+        }
+        public synchronized int take() throws InterruptedException {
+            while (item == null) wait(); // wait until item available
+            int val = item;
+            item = null;
+            System.out.println("Consumed: " + val);
+            notify(); // notify producer
+            return val;
+        }
+    }
+
+    static class Producer extends Thread {
+        private final Drop drop;
+        public Producer(Drop d) { drop = d; }
+        public void run() {
+            try {
+                for (int i = 1; i <= 5; i++) {
+                    drop.put(i);
+                    Thread.sleep(100);
+                }
+            } catch (InterruptedException e) { System.out.println("Producer interrupted"); }
+        }
+    }
+
+    static class Consumer extends Thread {
+        private final Drop drop;
+        public Consumer(Drop d) { drop = d; }
+        public void run() {
+            try {
+                for (int i = 1; i <= 5; i++) {
+                    int val = drop.take();
+                    Thread.sleep(150);
+                }
+            } catch (InterruptedException e) { System.out.println("Consumer interrupted"); }
+        }
+    }
+
+    public static void main(String[] args) {
+        Drop drop = new Drop();
+        new Producer(drop).start();
+        new Consumer(drop).start();
+        // main will exit while threads finish; small sleep to allow them to finish visibly
+        try { Thread.sleep(1500); } catch (InterruptedException e) { /* ignore */ }
+        System.out.println("Main done.");
+    }
+}
+// Program15.java
+// Create a ThreadGroup and list threads
+public class Program15 {
+    static class Worker extends Thread {
+        public Worker(ThreadGroup g, String name) { super(g, name); }
+        public void run() {
+            System.out.println(Thread.currentThread().getName() + " running in group " + getThreadGroup().getName());
+            try { Thread.sleep(200); } catch (InterruptedException e) { /* ignore */ }
+        }
+    }
+
+    public static void main(String[] args) {
+        ThreadGroup group = new ThreadGroup("MyWorkers");
+        Thread t1 = new Worker(group, "G-Worker-1");
+        Thread t2 = new Worker(group, "G-Worker-2");
+
+        t1.start(); t2.start();
+
+        // list information about the thread group
+        group.list(); // prints group details to stdout
+
+        try { t1.join(); t2.join(); } catch (InterruptedException e) { /* ignore */ }
+        System.out.println("All group threads finished.");
+    }
+}
+// Program16.java
+// Classic deadlock example but threads set as daemon so JVM can exit after main finishes.
+// This shows how locks can cause deadlock without blocking program forever during demo.
+public class Program16 {
+    private static final Object LOCK_A = new Object();
+    private static final Object LOCK_B = new Object();
+
+    static class T1 extends Thread {
+        public void run() {
+            synchronized (LOCK_A) {
+                System.out.println("T1 acquired LOCK_A");
+                try { Thread.sleep(200); } catch (InterruptedException e) {}
+                System.out.println("T1 trying to acquire LOCK_B");
+                synchronized (LOCK_B) {
+                    System.out.println("T1 acquired LOCK_B"); // unlikely due to deadlock
+                }
+            }
+        }
+    }
+
+    static class T2 extends Thread {
+        public void run() {
+            synchronized (LOCK_B) {
+                System.out.println("T2 acquired LOCK_B");
+                try { Thread.sleep(200); } catch (InterruptedException e) {}
+                System.out.println("T2 trying to acquire LOCK_A");
+                synchronized (LOCK_A) {
+                    System.out.println("T2 acquired LOCK_A"); // unlikely due to deadlock
+                }
+            }
+        }
+    }
+
+    public static void main(String[] args) {
+        T1 t1 = new T1(); t1.setDaemon(true); // daemon so JVM can exit
+        T2 t2 = new T2(); t2.setDaemon(true);
+
+        t1.start(); t2.start();
+
+        // Sleep short time to let threads reach deadlock point and print messages
+        try { Thread.sleep(800); } catch (InterruptedException e) {}
+
+        System.out.println("Main finished (daemon threads may still be deadlocked but JVM will exit).");
+    }
+}
+// Program17.java
+// Submit Callable tasks to ExecutorService and get results via Future
+import java.util.concurrent.*;
+
+public class Program17 {
+    public static void main(String[] args) {
+        ExecutorService pool = Executors.newFixedThreadPool(2);
+
+        Callable<Integer> task = () -> {
+            int sum = 0;
+            for (int i = 1; i <= 5; i++) sum += i;
+            Thread.sleep(200); // small wait to simulate work
+            return sum;
+        };
+
+        Future<Integer> f1 = pool.submit(task);
+        Future<Integer> f2 = pool.submit(task);
+
+        try {
+            System.out.println("Result f1 = " + f1.get()); // blocks until result ready
+            System.out.println("Result f2 = " + f2.get());
+        } catch (InterruptedException | ExecutionException e) {
+            System.out.println("Exception while getting future result: " + e.getMessage());
+        } finally {
+            pool.shutdown();
+        }
+    }
+}
+// Program18.java
+// Use a volatile boolean to ask a thread to stop cooperatively
+public class Program18 {
+    static class Stoppable extends Thread {
+        private volatile boolean running = true;
+        public void run() {
+            int i = 0;
+            while (running) {
+                System.out.println(getName() + " working i=" + i++);
+                try { Thread.sleep(150); } catch (InterruptedException e) { /* ignore */ }
+            }
+            System.out.println(getName() + " stopped gracefully.");
+        }
+        public void stopRunning() { running = false; }
+    }
+
+    public static void main(String[] args) {
+        Stoppable s = new Stoppable();
+        s.setName("Worker");
+        s.start();
+
+        try { Thread.sleep(700); } catch (InterruptedException e) { /* ignore */ }
+
+        System.out.println("Main: requesting worker to stop.");
+        s.stopRunning();
+
+        try { s.join(); } catch (InterruptedException e) { /* ignore */ }
+
+        System.out.println("Main: worker has stopped.");
+    }
+}
+// Program19.java
+// Show ConcurrentModificationException when modifying an ArrayList during iteration
+import java.util.*;
+
+public class Program19 {
+    public static void main(String[] args) {
+        List<Integer> list = new ArrayList<>(Arrays.asList(1,2,3,4,5));
+
+        System.out.println("Unsafe iteration (will throw):");
+        try {
+            for (Integer x : list) {
+                if (x == 3) list.remove(x); // structural modification during iteration
+            }
+        } catch (ConcurrentModificationException e) {
+            System.out.println("Caught ConcurrentModificationException: " + e);
+        }
+
+        System.out.println("Safe iteration using iterator.remove():");
+        list = new ArrayList<>(Arrays.asList(1,2,3,4,5));
+        Iterator<Integer> it = list.iterator();
+        while (it.hasNext()) {
+            Integer x = it.next();
+            if (x == 3) it.remove(); // safe removal
+        }
+        System.out.println("List after safe removal: " + list);
+    }
+}
+// Program20.java
+// Show using Collections.synchronizedList() and ConcurrentLinkedQueue for thread-safe operations
+import java.util.*;
+import java.util.concurrent.*;
+
+public class Program20 {
+    public static void main(String[] args) throws InterruptedException {
+        List<Integer> syncList = Collections.synchronizedList(new ArrayList<>());
+        Queue<Integer> concurrentQueue = new ConcurrentLinkedQueue<>();
+
+        // 2 threads adding to both collections concurrently
+        Thread t1 = new Thread(() -> {
+            for (int i = 1; i <= 50; i++) {
+                syncList.add(i);
+                concurrentQueue.add(i);
+                try { Thread.sleep(2); } catch (InterruptedException e) {}
+            }
+        }, "Adder-1");
+
+        Thread t2 = new Thread(() -> {
+            for (int i = 51; i <= 100; i++) {
+                syncList.add(i);
+                concurrentQueue.add(i);
+                try { Thread.sleep(2); } catch (InterruptedException e) {}
+            }
+        }, "Adder-2");
+
+        t1.start(); t2.start();
+        t1.join(); t2.join();
+
+        System.out.println("syncList size = " + syncList.size());
+        System.out.println("concurrentQueue size = " + concurrentQueue.size());
+
+        // iterate synchronized list safely by synchronizing on the list object
+        synchronized (syncList) {
+            System.out.print("First 10 elements of syncList: ");
+            int cnt=0;
+            for (Integer x : syncList) {
+                System.out.print(x + " ");
+                if (++cnt >= 10) break;
+            }
+            System.out.println();
+        }
+
+        System.out.print("First 10 elements of concurrentQueue: ");
+        int cnt=0;
+        for (Integer x : concurrentQueue) {
+            System.out.print(x + " ");
+            if (++cnt >= 10) break;
+        }
+        System.out.println();
+    }
+}
+// Program21.java
+// Demonstrate daemon threads: they do not prevent JVM from exiting
+public class Program21 {
+    static class Background extends Thread {
+        public Background() { setDaemon(true); } // daemon thread
+        public void run() {
+            try {
+                while (true) {
+                    System.out.println("Background task running...");
+                    Thread.sleep(300);
+                }
+            } catch (InterruptedException e) {
+                System.out.println("Background interrupted");
+            }
+        }
+    }
+
+    public static void main(String[] args) throws InterruptedException {
+        Background bg = new Background();
+        bg.start();
+        System.out.println("Main will sleep for 1 second and then exit.");
+        Thread.sleep(1000);
+        System.out.println("Main exiting — daemon background thread will not keep JVM alive.");
+    }
+}
+// Program22.java
+// Create threads with different priority to observe scheduling bias
+public class Program22 {
+    static class Busy extends Thread {
+        private final int loops;
+        public Busy(String name, int loops) { super(name); this.loops = loops; }
+        public void run() {
+            long count = 0;
+            for (int i = 0; i < loops; i++) count += i;
+            System.out.println(getName() + " done (count=" + count + ")");
+        }
+    }
+
+    public static void main(String[] args) throws InterruptedException {
+        Thread t1 = new Busy("HighPriority", 5_000_000);
+        Thread t2 = new Busy("LowPriority", 5_000_000);
+
+        t1.setPriority(Thread.MAX_PRIORITY);
+        t2.setPriority(Thread.MIN_PRIORITY);
+
+        t1.start(); t2.start();
+        t1.join(); t2.join();
+
+        System.out.println("Both threads finished. Note: priority influence depends on JVM/OS scheduling.");
+    }
+}
+// Program23.java
+// Demonstrate ReentrantLock and tryLock to avoid blocking forever
+import java.util.concurrent.locks.ReentrantLock;
+
+public class Program23 {
+    private final ReentrantLock lock = new ReentrantLock();
+
+    public void safeMethod(String name) {
+        boolean acquired = false;
+        try {
+            acquired = lock.tryLock(); // non-blocking attempt
+            if (acquired) {
+                System.out.println(name + " acquired lock and working...");
+                try { Thread.sleep(200); } catch (InterruptedException e) {}
+            } else {
+                System.out.println(name + " could not acquire lock, skipping work.");
+            }
+        } finally {
+            if (acquired) lock.unlock();
+        }
+    }
+
+    public static void main(String[] args) throws InterruptedException {
+        Program23 p = new Program23();
+        Thread t1 = new Thread(() -> p.safeMethod("T1"));
+        Thread t2 = new Thread(() -> p.safeMethod("T2"));
+
+        t1.start(); t2.start();
+        t1.join(); t2.join();
+        System.out.println("Main finished.");
+    }
+}
+
+// Program24.java
+// Producer puts a single item; multiple consumers wait() and are notified with notifyAll()
+public class Program24 {
+    static class Box {
+        private Integer value = null;
+        public synchronized void put(int v) throws InterruptedException {
+            while (value != null) wait();
+            value = v;
+            System.out.println("Produced: " + v);
+            notifyAll();
+        }
+        public synchronized int take() throws InterruptedException {
+            while (value == null) wait();
+            int v = value;
+            value = null;
+            System.out.println("Consumed: " + v + " by " + Thread.currentThread().getName());
+            notifyAll();
+            return v;
+        }
+    }
+
+    public static void main(String[] args) {
+        Box box = new Box();
+        Thread producer = new Thread(() -> {
+            try {
+                for (int i = 1; i <= 3; i++) { box.put(i); Thread.sleep(150); }
+            } catch (Exception e) {}
+        }, "Producer");
+
+        Runnable consumerTask = () -> {
+            try {
+                for (int i = 0; i < 1; i++) box.take();
+            } catch (Exception e) {}
+        };
+
+        Thread c1 = new Thread(consumerTask, "C1");
+        Thread c2 = new Thread(consumerTask, "C2");
+
+        c1.start(); c2.start(); producer.start();
+        try { producer.join(); c1.join(); c2.join(); } catch (InterruptedException e) {}
+        System.out.println("All done.");
+    }
+}
+// Program25.java
+// Use ArrayBlockingQueue to implement producer-consumer (thread-safe, no wait/notify needed)
+import java.util.concurrent.ArrayBlockingQueue;
+import java.util.concurrent.BlockingQueue;
+
+public class Program25 {
+    public static void main(String[] args) throws InterruptedException {
+        BlockingQueue<Integer> buffer = new ArrayBlockingQueue<>(3);
+
+        Thread producer = new Thread(() -> {
+            try {
+                for (int i = 1; i <= 6; i++) {
+                    buffer.put(i);
+                    System.out.println("Produced " + i);
+                    Thread.sleep(100);
+                }
+            } catch (InterruptedException e) {}
+        }, "Producer");
+
+        Thread consumer = new Thread(() -> {
+            try {
+                for (int i = 1; i <= 6; i++) {
+                    int v = buffer.take();
+                    System.out.println("Consumed " + v);
+                    Thread.sleep(180);
+                }
+            } catch (InterruptedException e) {}
+        }, "Consumer");
+
+        producer.start(); consumer.start();
+        producer.join(); consumer.join();
+        System.out.println("Producer and consumer finished.");
+    }
+}
+// Program26.java
+// Demonstrate ThreadLocal providing thread-specific data
+public class Program26 {
+    private static final ThreadLocal<Integer> threadId = ThreadLocal.withInitial(() -> 0);
+
+    static class Worker extends Thread {
+        public Worker(String name, int id) { super(name); threadId.set(id); }
+        public void run() {
+            System.out.println(getName() + " initial threadId = " + threadId.get());
+            threadId.set(threadId.get() + 100);
+            System.out.println(getName() + " updated threadId = " + threadId.get());
+            threadId.remove(); // cleanup
+        }
+    }
+
+    public static void main(String[] args) throws InterruptedException {
+        Thread t1 = new Worker("T1", 1);
+        Thread t2 = new Worker("T2", 2);
+        t1.start(); t2.start();
+        t1.join(); t2.join();
+        System.out.println("Main finished.");
+    }
+}
+// Program27.java
+// Schedule a repeating task using ScheduledExecutorService
+import java.util.concurrent.*;
+
+public class Program27 {
+    public static void main(String[] args) throws InterruptedException {
+        ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
+        Runnable task = () -> System.out.println("Scheduled task running at " + System.currentTimeMillis());
+        ScheduledFuture<?> handle = scheduler.scheduleAtFixedRate(task, 0, 300, TimeUnit.MILLISECONDS);
+
+        // let it run for ~1 second then cancel
+        Thread.sleep(1000);
+        handle.cancel(false);
+        scheduler.shutdown();
+        scheduler.awaitTermination(1, TimeUnit.SECONDS);
+        System.out.println("Scheduler shutdown.");
+    }
+}
+// Program28.java
+// Demonstrate shutdownNow() and tasks responding to interruption
+import java.util.concurrent.*;
+
+public class Program28 {
+    public static void main(String[] args) throws InterruptedException {
+        ExecutorService pool = Executors.newFixedThreadPool(2);
+
+        Runnable longTask = () -> {
+            try {
+                for (int i = 0; i < 10; i++) {
+                    System.out.println(Thread.currentThread().getName() + " working " + i);
+                    Thread.sleep(200);
+                }
+            } catch (InterruptedException e) {
+                System.out.println(Thread.currentThread().getName() + " interrupted and exiting.");
+                Thread.currentThread().interrupt();
+            }
+        };
+
+        pool.submit(longTask);
+        pool.submit(longTask);
+
+        Thread.sleep(400); // let tasks run a bit
+        System.out.println("Calling shutdownNow()");
+        pool.shutdownNow(); // attempts to interrupt running tasks
+        pool.awaitTermination(1, TimeUnit.SECONDS);
+        System.out.println("Pool terminated? " + pool.isTerminated());
+    }
+}
+// Program29.java
+// Livelock example (threads keep yielding to avoid conflict) and resolution by backoff
+public class Program29 {
+    static class PoliteWorker implements Runnable {
+        private final String name;
+        private volatile boolean busy;
+
+        public PoliteWorker(String name, boolean busy) { this.name = name; this.busy = busy; }
+
+        public void run() {
+            int attempts = 0;
+            while (attempts < 5) {
+                if (!busy) {
+                    System.out.println(name + " found resource free and uses it.");
+                    busy = true; // simulate using -> this affects only this object
+                    try { Thread.sleep(150); } catch (InterruptedException e) {}
+                    busy = false;
+                    break;
+                } else {
+                    // politeness causes yielding - potential livelock
+                    System.out.println(name + " sees busy, yields (attempt " + attempts + ")");
+                    attempts++;
+                    Thread.yield();
+                }
+            }
+            System.out.println(name + " finished attempts.");
+        }
+    }
+
+    public static void main(String[] args) throws InterruptedException {
+        PoliteWorker w1 = new PoliteWorker("W1", true);
+        PoliteWorker w2 = new PoliteWorker("W2", true);
+
+        Thread t1 = new Thread(w1);
+        Thread t2 = new Thread(w2);
+        t1.start(); t2.start();
+        t1.join(); t2.join();
+        System.out.println("Demo complete. (This simple example shows how yield can cause livelock-like behavior.)");
+    }
+}
+// Program30.java
+// Small combined demo: synchronized counter with wait/notify, interruption handling
+public class Program30 {
+    static class SyncCounter {
+        private int value = 0;
+        public synchronized void increment() {
+            value++;
+            notifyAll();
+        }
+        public synchronized int waitForValue(int target) throws InterruptedException {
+            while (value < target) wait();
+            return value;
+        }
+        public synchronized int get() { return value; }
+    }
+
+    public static void main(String[] args) throws InterruptedException {
+        SyncCounter counter = new SyncCounter();
+
+        Thread waiter = new Thread(() -> {
+            try {
+                System.out.println("Waiter: waiting for value >= 3");
+                int val = counter.waitForValue(3);
+                System.out.println("Waiter: detected value = " + val);
+            } catch (InterruptedException e) {
+                System.out.println("Waiter interrupted while waiting");
+            }
+        }, "Waiter");
+
+        Thread incrementer = new Thread(() -> {
+            try {
+                for (int i = 0; i < 5; i++) {
+                    Thread.sleep(200);
+                    counter.increment();
+                    System.out.println("Incrementer increased value to " + counter.get());
+                }
+            } catch (InterruptedException e) {
+                System.out.println("Incrementer interrupted");
+            }
+        }, "Incrementer");
+
+        waiter.start(); incrementer.start();
+
+        // Optionally interrupt waiter to show interruption handling (uncomment to test)
+        // Thread.sleep(250); waiter.interrupt();
+
+        waiter.join(); incrementer.join();
+        System.out.println("Combined demo finished.");
+    }
+}
