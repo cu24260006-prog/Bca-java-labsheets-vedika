@@ -1,1 +1,566 @@
+// Program01.java
+// Create an ArrayList of integers and print all elements
+import java.util.ArrayList;
+
+public class Program01 {
+    public static void main(String[] args) {
+        ArrayList<Integer> list = new ArrayList<>();
+        list.add(10);
+        list.add(20);
+        list.add(30);
+
+        System.out.println("ArrayList elements:");
+        for (Integer x : list) {
+            System.out.println(x);
+        }
+    }
+}
+
+// Program02.java
+// Add elements to an ArrayList and display its size
+import java.util.ArrayList;
+
+public class Program02 {
+    public static void main(String[] args) {
+        ArrayList<String> list = new ArrayList<>();
+        list.add("apple");
+        list.add("banana");
+        list.add("cherry");
+
+        System.out.println("Elements: " + list);
+        System.out.println("Size = " + list.size());
+    }
+}
+// Program03.java
+// Insert an element at a specific index in an ArrayList
+import java.util.ArrayList;
+
+public class Program03 {
+    public static void main(String[] args) {
+        ArrayList<String> list = new ArrayList<>();
+        list.add("one");
+        list.add("two");
+        list.add("four");
+
+        System.out.println("Before insert: " + list);
+        list.add(2, "three"); // insert at index 2
+        System.out.println("After insert at index 2: " + list);
+    }
+}
+// Program04.java
+// Remove an element from an ArrayList by index and by value
+import java.util.ArrayList;
+
+public class Program04 {
+    public static void main(String[] args) {
+        ArrayList<String> list = new ArrayList<>();
+        list.add("red");
+        list.add("green");
+        list.add("blue");
+        list.add("green");
+
+        System.out.println("Original list: " + list);
+
+        // remove by index
+        String removed = list.remove(1); // removes element at index 1 ("green")
+        System.out.println("Removed by index 1 -> " + removed);
+        System.out.println("After removing index: " + list);
+
+        // remove by value (first occurrence)
+        boolean ok = list.remove("green");
+        System.out.println("Removed by value 'green'? " + ok);
+        System.out.println("After removing value: " + list);
+    }
+}
+// Program05.java
+// Update an element in an ArrayList at a given index
+import java.util.ArrayList;
+
+public class Program05 {
+    public static void main(String[] args) {
+        ArrayList<Integer> list = new ArrayList<>();
+        list.add(100);
+        list.add(200);
+        list.add(300);
+
+        System.out.println("Before update: " + list);
+        list.set(1, 250); // update index 1
+        System.out.println("After update at index 1: " + list);
+    }
+}
+// Program06.java
+// Iterate through an ArrayList using a for-each loop
+import java.util.ArrayList;
+
+public class Program06 {
+    public static void main(String[] args) {
+        ArrayList<String> names = new ArrayList<>();
+        names.add("Asha");
+        names.add("Rohit");
+        names.add("Meera");
+
+        System.out.println("Iterating with for-each:");
+        for (String name : names) {
+            System.out.println(name);
+        }
+    }
+}
+// Program07.java
+// Iterate through an ArrayList using an Iterator
+import java.util.ArrayList;
+import java.util.Iterator;
+
+public class Program07 {
+    public static void main(String[] args) {
+        ArrayList<Integer> numbers = new ArrayList<>();
+        for (int i = 1; i <= 5; i++) numbers.add(i);
+
+        System.out.println("Iterating with Iterator:");
+        Iterator<Integer> it = numbers.iterator();
+        while (it.hasNext()) {
+            Integer v = it.next();
+            System.out.println(v);
+        }
+    }
+}
+// Program08.java
+// Sort an ArrayList of integers in ascending order
+import java.util.ArrayList;
+import java.util.Collections;
+
+public class Program08 {
+    public static void main(String[] args) {
+        ArrayList<Integer> list = new ArrayList<>();
+        list.add(42);
+        list.add(7);
+        list.add(19);
+        list.add(3);
+
+        System.out.println("Before sort: " + list);
+        Collections.sort(list);
+        System.out.println("After ascending sort: " + list);
+    }
+}
+// Program09.java
+// Reverse an ArrayList of strings
+import java.util.ArrayList;
+import java.util.Collections;
+
+public class Program09 {
+    public static void main(String[] args) {
+        ArrayList<String> list = new ArrayList<>();
+        list.add("first");
+        list.add("second");
+        list.add("third");
+
+        System.out.println("Before reverse: " + list);
+        Collections.reverse(list);
+        System.out.println("After reverse: " + list);
+    }
+}
+// Program10.java
+// Create a LinkedList of strings and print elements
+import java.util.LinkedList;
+
+public class Program10 {
+    public static void main(String[] args) {
+        LinkedList<String> ll = new LinkedList<>();
+        ll.add("Mon");
+        ll.add("Tue");
+        ll.add("Wed");
+
+        System.out.println("LinkedList elements:");
+        for (String d : ll) System.out.println(d);
+    }
+}
+// Program11.java
+// Add elements at the beginning and end of a LinkedList
+import java.util.LinkedList;
+
+public class Program11 {
+    public static void main(String[] args) {
+        LinkedList<String> days = new LinkedList<>();
+        days.add("Tue");
+        days.add("Wed");
+
+        System.out.println("Initial list: " + days);
+
+        // add at beginning and end
+        days.addFirst("Mon");
+        days.addLast("Thu");
+
+        System.out.println("After addFirst and addLast: " + days);
+    }
+}
+// Program12.java
+// Remove the first and last elements from a LinkedList
+import java.util.LinkedList;
+
+public class Program12 {
+    public static void main(String[] args) {
+        LinkedList<String> list = new LinkedList<>();
+        list.add("First");
+        list.add("Middle");
+        list.add("Last");
+
+        System.out.println("Before removal: " + list);
+
+        String removedFirst = list.removeFirst();
+        String removedLast = list.removeLast();
+
+        System.out.println("Removed first: " + removedFirst);
+        System.out.println("Removed last: " + removedLast);
+        System.out.println("After removal: " + list);
+    }
+}
+// Program13.java
+// Retrieve the first and last elements from a LinkedList
+import java.util.LinkedList;
+
+public class Program13 {
+    public static void main(String[] args) {
+        LinkedList<Integer> ll = new LinkedList<>();
+        ll.add(10);
+        ll.add(20);
+        ll.add(30);
+
+        System.out.println("LinkedList: " + ll);
+        System.out.println("First element (peek): " + ll.peekFirst());
+        System.out.println("Last element (peek): " + ll.peekLast());
+
+        // getFirst/getLast throw exception if empty, so showing safe peek above
+    }
+}
+// Program14.java
+// Create a HashSet of integers and add duplicate elements. Observe result.
+import java.util.HashSet;
+import java.util.Set;
+
+public class Program14 {
+    public static void main(String[] args) {
+        Set<Integer> set = new HashSet<>();
+        set.add(10);
+        set.add(20);
+        set.add(10); // duplicate
+        set.add(30);
+        set.add(20); // duplicate
+
+        System.out.println("HashSet contents (duplicates ignored): " + set);
+        System.out.println("Size = " + set.size() + " (duplicates were not added twice)");
+    }
+}
+// Program15.java
+// Remove an element from a HashSet
+import java.util.HashSet;
+import java.util.Set;
+
+public class Program15 {
+    public static void main(String[] args) {
+        Set<String> set = new HashSet<>();
+        set.add("apple");
+        set.add("banana");
+        set.add("cherry");
+
+        System.out.println("Before remove: " + set);
+        boolean removed = set.remove("banana");
+        System.out.println("Removed 'banana'? " + removed);
+        System.out.println("After remove: " + set);
+    }
+}
+// Program16.java
+// Iterate through a HashSet using Iterator
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.Set;
+
+public class Program16 {
+    public static void main(String[] args) {
+        Set<String> set = new HashSet<>();
+        set.add("one");
+        set.add("two");
+        set.add("three");
+
+        System.out.println("Iterating HashSet with Iterator:");
+        Iterator<String> it = set.iterator();
+        while (it.hasNext()) {
+            String v = it.next();
+            System.out.println(v);
+        }
+    }
+}
+// Program17.java
+// Create a TreeSet of integers and add elements in random order. Print the sorted set.
+import java.util.Set;
+import java.util.TreeSet;
+
+public class Program17 {
+    public static void main(String[] args) {
+        Set<Integer> tree = new TreeSet<>();
+        tree.add(42);
+        tree.add(7);
+        tree.add(19);
+        tree.add(3);
+        tree.add(19); // duplicate
+
+        System.out.println("TreeSet (sorted, duplicates removed): " + tree);
+    }
+}
+// Program18.java
+// Check if a TreeSet contains a specific element
+import java.util.Set;
+import java.util.TreeSet;
+
+public class Program18 {
+    public static void main(String[] args) {
+        Set<Integer> tree = new TreeSet<>();
+        tree.add(5);
+        tree.add(10);
+        tree.add(15);
+
+        int key = 10;
+        System.out.println("TreeSet: " + tree);
+        System.out.println("Contains " + key + "? " + tree.contains(key));
+        System.out.println("Contains 99? " + tree.contains(99));
+    }
+}
+// Program19.java
+// Create a LinkedHashSet of strings and maintain insertion order
+import java.util.LinkedHashSet;
+import java.util.Set;
+
+public class Program19 {
+    public static void main(String[] args) {
+        Set<String> linked = new LinkedHashSet<>();
+        linked.add("first");
+        linked.add("second");
+        linked.add("third");
+        linked.add("second"); // duplicate ignored
+
+        System.out.println("LinkedHashSet preserves insertion order: " + linked);
+    }
+}
+// Program20.java
+// Compare HashSet, LinkedHashSet, and TreeSet by printing elements
+import java.util.*;
+
+public class Program20 {
+    public static void main(String[] args) {
+        List<Integer> input = Arrays.asList(5, 3, 9, 3, 1, 7);
+
+        Set<Integer> hashSet = new HashSet<>(input);
+        Set<Integer> linkedSet = new LinkedHashSet<>(input);
+        Set<Integer> treeSet = new TreeSet<>(input);
+
+        System.out.println("Input list: " + input);
+        System.out.println("HashSet (unordered, unique): " + hashSet);
+        System.out.println("LinkedHashSet (insertion order, unique): " + linkedSet);
+        System.out.println("TreeSet (sorted order, unique): " + treeSet);
+    }
+}
+// Program21.java
+// Create a PriorityQueue of integers and add elements. Print the queue.
+import java.util.PriorityQueue;
+import java.util.Queue;
+
+public class Program21 {
+    public static void main(String[] args) {
+        PriorityQueue<Integer> pq = new PriorityQueue<>();
+        pq.add(50);
+        pq.add(10);
+        pq.add(30);
+        pq.add(20);
+
+        System.out.println("PriorityQueue (internal heap order): " + pq);
+        System.out.println("Peek (smallest) = " + pq.peek());
+    }
+}
+// Program22.java
+// Remove elements from a PriorityQueue and observe the order
+import java.util.PriorityQueue;
+
+public class Program22 {
+    public static void main(String[] args) {
+        PriorityQueue<Integer> pq = new PriorityQueue<>();
+        pq.add(40);
+        pq.add(5);
+        pq.add(25);
+        pq.add(15);
+
+        System.out.println("Polling elements from PriorityQueue (ascending):");
+        while (!pq.isEmpty()) {
+            System.out.println(pq.poll()); // removes in natural order (smallest first)
+        }
+    }
+}
+// Program23.java
+// Peek the first element of a PriorityQueue without removing it
+import java.util.PriorityQueue;
+
+public class Program23 {
+    public static void main(String[] args) {
+        PriorityQueue<String> pq = new PriorityQueue<>();
+        pq.add("orange");
+        pq.add("apple");
+        pq.add("banana");
+
+        System.out.println("PriorityQueue: " + pq);
+        String first = pq.peek(); // peek does not remove
+        System.out.println("Peeked element = " + first);
+        System.out.println("After peek, queue still: " + pq);
+    }
+}
+// Program24.java
+// Use a Queue interface reference to refer to a LinkedList. Add and remove elements.
+import java.util.LinkedList;
+import java.util.Queue;
+
+public class Program24 {
+    public static void main(String[] args) {
+        Queue<String> q = new LinkedList<>(); // Queue reference
+        q.add("A");
+        q.add("B");
+        q.add("C");
+
+        System.out.println("Queue after adds: " + q);
+        String removed = q.remove(); // removes head
+        System.out.println("Removed head: " + removed);
+        System.out.println("Queue now: " + q);
+    }
+}
+// Program25.java
+// Demonstrate adding, removing, and peeking elements in a Queue
+import java.util.LinkedList;
+import java.util.Queue;
+
+public class Program25 {
+    public static void main(String[] args) {
+        Queue<Integer> q = new LinkedList<>();
+        q.offer(1); // add
+        q.offer(2);
+        q.offer(3);
+        System.out.println("Queue: " + q);
+
+        System.out.println("Peek (head) = " + q.peek()); // peek
+        System.out.println("Poll (remove head) = " + q.poll()); // remove head safely
+        System.out.println("Queue after poll: " + q);
+
+        // clear rest
+        q.clear();
+        System.out.println("Cleared queue size = " + q.size());
+    }
+}
+// Program26.java
+// Create an ArrayList of custom objects (Student) and iterate using Iterator
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+
+public class Program26 {
+    static class Student {
+        int id;
+        String name;
+        double grade;
+        Student(int id, String name, double grade) { this.id = id; this.name = name; this.grade = grade; }
+        @Override public String toString() { return id + ":" + name + ":" + grade; }
+    }
+
+    public static void main(String[] args) {
+        List<Student> students = new ArrayList<>();
+        students.add(new Student(1, "Asha", 8.5));
+        students.add(new Student(2, "Rohit", 7.8));
+        students.add(new Student(3, "Meera", 9.1));
+
+        System.out.println("Iterating students with Iterator:");
+        Iterator<Student> it = students.iterator();
+        while (it.hasNext()) {
+            Student s = it.next();
+            System.out.println(s);
+        }
+    }
+}
+// Program27.java
+// Sort an ArrayList of custom objects using Comparator (by grade descending)
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
+
+public class Program27 {
+    static class Student {
+        int id; String name; double grade;
+        Student(int id, String name, double grade) { this.id=id; this.name=name; this.grade=grade; }
+        @Override public String toString() { return id + ":" + name + ":" + grade; }
+    }
+
+    public static void main(String[] args) {
+        List<Student> list = new ArrayList<>();
+        list.add(new Student(1, "A", 7.2));
+        list.add(new Student(2, "B", 9.0));
+        list.add(new Student(3, "C", 8.1));
+
+        System.out.println("Before sorting: " + list);
+        // sort by grade descending
+        Collections.sort(list, new Comparator<Student>() {
+            @Override
+            public int compare(Student s1, Student s2) {
+                return Double.compare(s2.grade, s1.grade); // descending
+            }
+        });
+
+        System.out.println("After sorting by grade (desc): " + list);
+    }
+}
+// Program28.java
+// Convert a List to a Set and observe duplicate removal
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
+public class Program28 {
+    public static void main(String[] args) {
+        List<String> list = new ArrayList<>();
+        list.add("apple");
+        list.add("banana");
+        list.add("apple"); // duplicate
+        list.add("cherry");
+
+        System.out.println("Original List: " + list);
+        Set<String> set = new HashSet<>(list);
+        System.out.println("Converted Set (duplicates removed): " + set);
+    }
+}
+// Program29.java
+// Convert a Set to a List and iterate through it
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
+public class Program29 {
+    public static void main(String[] args) {
+        Set<Integer> set = new HashSet<>();
+        set.add(5); set.add(2); set.add(9);
+
+        System.out.println("Original Set: " + set);
+        List<Integer> list = new ArrayList<>(set);
+        System.out.println("Converted List (iteration):");
+        for (Integer x : list) System.out.println(x);
+    }
+}
+// Program30.java
+// Demonstrate clearing all elements from a List, Set, and Queue
+import java.util.*;
+
+public class Program30 {
+    public static void main(String[] args) {
+        List<String> list = new ArrayList<>(Arrays.asList("a","b","c"));
+        Set<Integer> set = new HashSet<>(Arrays.asList(1,2,3));
+        Queue<Double> queue = new LinkedList<>(Arrays.asList(1.1, 2.2, 3.3));
+
+        System.out.println("Before clear -> list: " + list + ", set: " + set + ", queue: " + queue);
+        list.clear(); set.clear(); queue.clear();
+        System.out.println("After clear -> list size: " + list.size() + ", set size: " + set.size() + ", queue size: " + queue.size());
+    }
+}
 
