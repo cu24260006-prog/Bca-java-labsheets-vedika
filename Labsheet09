@@ -1,1 +1,573 @@
+// Program01.java
+// Create a file using File class and check if it exists
+import java.io.File;
+import java.io.IOException;
+import java.util.Scanner;
 
+public class Program01 {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        System.out.print("Enter filename to create (e.g. test.txt): ");
+        String name = sc.nextLine().trim();
+
+        File f = new File(name);
+        try {
+            boolean created = f.createNewFile(); // creates file if not exists
+            if (created) System.out.println("File created: " + f.getAbsolutePath());
+            else System.out.println("File already exists: " + f.getAbsolutePath());
+
+            System.out.println("Exists? " + f.exists());
+        } catch (IOException e) {
+            System.out.println("I/O error: " + e.getMessage());
+        } finally {
+            sc.close();
+        }
+    }
+}
+
+// Program02.java
+// Display the name, path and size of a file using File class
+import java.io.File;
+import java.util.Scanner;
+
+public class Program02 {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        System.out.print("Enter filename to inspect: ");
+        String name = sc.nextLine().trim();
+
+        File f = new File(name);
+        if (f.exists() && f.isFile()) {
+            System.out.println("Name: " + f.getName());
+            System.out.println("Absolute Path: " + f.getAbsolutePath());
+            System.out.println("Size (bytes): " + f.length());
+            System.out.println("Readable: " + f.canRead() + ", Writable: " + f.canWrite());
+        } else {
+            System.out.println("File does not exist or is not a regular file.");
+        }
+        sc.close();
+    }
+}
+// Program03.java
+// List all files and folders in a given directory
+import java.io.File;
+import java.util.Scanner;
+
+public class Program03 {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        System.out.print("Enter directory path (or '.' for current): ");
+        String path = sc.nextLine().trim();
+
+        File dir = new File(path);
+        if (!dir.exists() || !dir.isDirectory()) {
+            System.out.println("Not a valid directory: " + dir.getAbsolutePath());
+            sc.close();
+            return;
+        }
+
+        File[] items = dir.listFiles();
+        if (items == null || items.length == 0) {
+            System.out.println("Directory is empty.");
+        } else {
+            System.out.println("Contents of " + dir.getAbsolutePath() + ":");
+            for (File it : items) {
+                String type = it.isDirectory() ? "<DIR>" : "<FILE>";
+                System.out.printf("%-6s %10d bytes  %s%n", type, it.isFile() ? it.length() : 0, it.getName());
+            }
+        }
+        sc.close();
+    }
+}
+// Program04.java
+// Create a new folder using File class
+import java.io.File;
+import java.util.Scanner;
+
+public class Program04 {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        System.out.print("Enter folder name to create: ");
+        String folder = sc.nextLine().trim();
+
+        File dir = new File(folder);
+        if (dir.exists()) {
+            System.out.println("Folder already exists: " + dir.getAbsolutePath());
+        } else {
+            boolean ok = dir.mkdirs(); // create directories if needed
+            if (ok) System.out.println("Folder created: " + dir.getAbsolutePath());
+            else System.out.println("Failed to create folder (check permissions).");
+        }
+        sc.close();
+    }
+}
+// Program05.java
+// Write data to a file using RandomAccessFile (overwrite from start)
+import java.io.RandomAccessFile;
+import java.util.Scanner;
+import java.io.IOException;
+
+public class Program05 {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        System.out.print("Enter filename to write using RandomAccessFile: ");
+        String fname = sc.nextLine().trim();
+
+        System.out.print("Enter text to write: ");
+        String text = sc.nextLine();
+
+        try (RandomAccessFile raf = new RandomAccessFile(fname, "rw")) {
+            raf.setLength(0);           // clear file (optional)
+            raf.seek(0);                // go to start
+            raf.write(text.getBytes("UTF-8"));
+            System.out.println("Data written to " + fname);
+        } catch (IOException e) {
+            System.out.println("I/O error: " + e.getMessage());
+        } finally {
+            sc.close();
+        }
+    }
+}
+// Program06.java
+// Read specific bytes from a file using RandomAccessFile
+import java.io.RandomAccessFile;
+import java.io.IOException;
+import java.util.Scanner;
+
+public class Program06 {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        System.out.print("Enter filename to read from: ");
+        String fname = sc.nextLine().trim();
+
+        System.out.print("Enter start position (byte offset, 0-based): ");
+        long pos = sc.nextLong();
+        System.out.print("Enter number of bytes to read: ");
+        int count = sc.nextInt();
+
+        try (RandomAccessFile raf = new RandomAccessFile(fname, "r")) {
+            if (pos < 0 || pos >= raf.length()) {
+                System.out.println("Position out of range. File size: " + raf.length());
+            } else {
+                raf.seek(pos);
+                byte[] buf = new byte[Math.min(count, (int)(raf.length() - pos))];
+                int read = raf.read(buf);
+                if (read > 0) {
+                    String s = new String(buf, 0, read, "UTF-8");
+                    System.out.println("Read (" + read + " bytes):");
+                    System.out.println(s);
+                } else {
+                    System.out.println("No bytes read.");
+                }
+            }
+        } catch (IOException e) {
+            System.out.println("I/O error: " + e.getMessage());
+        } finally {
+            sc.close();
+        }
+    }
+}
+// Program07.java
+// Modify content in the middle of a file: insert text at given position
+import java.io.RandomAccessFile;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.util.Scanner;
+
+public class Program07 {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        System.out.print("Enter filename to modify: ");
+        String fname = sc.nextLine().trim();
+
+        System.out.print("Enter insert position (byte offset): ");
+        long pos = sc.nextLong();
+        sc.nextLine(); // consume newline
+        System.out.print("Enter text to insert: ");
+        String insert = sc.nextLine();
+
+        try (RandomAccessFile raf = new RandomAccessFile(fname, "rw")) {
+            long fileLen = raf.length();
+            if (pos < 0 || pos > fileLen) {
+                System.out.println("Position out of range. File size: " + fileLen);
+            } else {
+                // Read remainder into memory
+                raf.seek(pos);
+                ByteArrayOutputStream baos = new ByteArrayOutputStream();
+                byte[] buffer = new byte[8192];
+                int n;
+                while ((n = raf.read(buffer)) != -1) baos.write(buffer, 0, n);
+                byte[] remainder = baos.toByteArray();
+
+                // Seek back to pos and write insert + remainder
+                raf.seek(pos);
+                raf.write(insert.getBytes("UTF-8"));
+                raf.write(remainder);
+
+                System.out.println("Inserted text at position " + pos);
+            }
+        } catch (IOException e) {
+            System.out.println("I/O error: " + e.getMessage());
+        } finally {
+            sc.close();
+        }
+    }
+}
+// Program08.java
+// Copy file content using FileInputStream and FileOutputStream
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.util.Scanner;
+
+public class Program08 {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        System.out.print("Enter source filename: ");
+        String src = sc.nextLine().trim();
+        System.out.print("Enter destination filename: ");
+        String dst = sc.nextLine().trim();
+
+        try (FileInputStream in = new FileInputStream(src);
+             FileOutputStream out = new FileOutputStream(dst)) {
+
+            byte[] buf = new byte[8192];
+            int n;
+            long total = 0;
+            while ((n = in.read(buf)) != -1) {
+                out.write(buf, 0, n);
+                total += n;
+            }
+            System.out.println("Copied " + total + " bytes from " + src + " to " + dst);
+        } catch (IOException e) {
+            System.out.println("I/O error: " + e.getMessage());
+        } finally {
+            sc.close();
+        }
+    }
+}
+// Program09.java
+// Read a text file line by line using BufferedReader
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.Scanner;
+
+public class Program09 {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        System.out.print("Enter filename to read line by line: ");
+        String fname = sc.nextLine().trim();
+
+        try (BufferedReader br = new BufferedReader(new FileReader(fname))) {
+            String line;
+            int ln = 0;
+            while ((line = br.readLine()) != null) {
+                ln++;
+                System.out.printf("%4d: %s%n", ln, line);
+            }
+        } catch (IOException e) {
+            System.out.println("I/O error: " + e.getMessage());
+        } finally {
+            sc.close();
+        }
+    }
+}
+// Program10.java
+// Write strings to a text file using FileWriter
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.Scanner;
+
+public class Program10 {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        System.out.print("Enter filename to write (text mode): ");
+        String fname = sc.nextLine().trim();
+
+        System.out.println("Enter lines to write. Type 'END' on a new line to finish.");
+        try (FileWriter fw = new FileWriter(fname)) {
+            while (true) {
+                String line = sc.nextLine();
+                if ("END".equals(line)) break;
+                fw.write(line + System.lineSeparator());
+            }
+            System.out.println("Finished writing to " + fname);
+        } catch (IOException e) {
+            System.out.println("I/O error: " + e.getMessage());
+        } finally {
+            sc.close();
+        }
+    }
+}
+// Program11.java
+// Serialize a Student object to "student.dat"
+import java.io.FileOutputStream;
+import java.io.ObjectOutputStream;
+import java.io.Serializable;
+import java.io.IOException;
+
+public class Program11 {
+    public static class Student implements Serializable {
+        private static final long serialVersionUID = 1L;
+        private int id;
+        private String name;
+        private double grade;
+
+        public Student(int id, String name, double grade) {
+            this.id = id; this.name = name; this.grade = grade;
+        }
+
+        @Override
+        public String toString() {
+            return "Student{id=" + id + ", name=" + name + ", grade=" + grade + "}";
+        }
+    }
+
+    public static void main(String[] args) {
+        Student s = new Student(101, "Vedika", 8.7);
+        String file = "student.dat";
+        try (ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(file))) {
+            out.writeObject(s);
+            System.out.println("Serialized: " + s + " -> " + file);
+        } catch (IOException e) {
+            System.out.println("Serialization error: " + e.getMessage());
+        }
+    }
+}
+// Program12.java
+// Deserialize a Student object from "student.dat"
+import java.io.FileInputStream;
+import java.io.ObjectInputStream;
+import java.io.IOException;
+import java.io.Serializable;
+
+public class Program12 {
+    // Note: Student class definition should match serialized form.
+    public static class Student implements Serializable {
+        private static final long serialVersionUID = 1L;
+        private int id;
+        private String name;
+        private double grade;
+
+        @Override
+        public String toString() {
+            return "Student{id=" + id + ", name=" + name + ", grade=" + grade + "}";
+        }
+    }
+
+    public static void main(String[] args) {
+        String file = "student.dat";
+        try (ObjectInputStream in = new ObjectInputStream(new FileInputStream(file))) {
+            Student s = (Student) in.readObject();
+            System.out.println("Deserialized: " + s);
+        } catch (IOException | ClassNotFoundException e) {
+            System.out.println("Deserialization error: " + e.getMessage());
+        }
+    }
+}
+// Program13.java
+// Demonstrate Serializable with multiple fields: Employee with nested Address class
+import java.io.*;
+
+public class Program13 {
+    public static class Address implements Serializable {
+        private static final long serialVersionUID = 1L;
+        String street;
+        String city;
+        public Address(String street, String city) { this.street = street; this.city = city; }
+        @Override public String toString() { return street + ", " + city; }
+    }
+
+    public static class Employee implements Serializable {
+        private static final long serialVersionUID = 1L;
+        int empId;
+        String empName;
+        double salary;
+        Address address;
+        public Employee(int id, String name, double sal, Address addr) {
+            empId = id; empName = name; salary = sal; address = addr;
+        }
+        @Override public String toString() {
+            return "Employee{id=" + empId + ", name=" + empName + ", salary=" + salary + ", address=" + address + "}";
+        }
+    }
+
+    public static void main(String[] args) {
+        Employee e = new Employee(701, "R. Kumar", 65000.0, new Address("MG Road", "Mumbai"));
+        String file = "employee.dat";
+        try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(file))) {
+            oos.writeObject(e);
+            System.out.println("Employee serialized -> " + file);
+        } catch (IOException ex) {
+            System.out.println("Error: " + ex.getMessage());
+        }
+    }
+}
+// Program14.java
+// Serialize an ArrayList<Student> to "students-list.dat"
+import java.io.*;
+import java.util.*;
+
+public class Program14 {
+    public static class Student implements Serializable {
+        private static final long serialVersionUID = 1L;
+        int id; String name; double grade;
+        public Student(int id, String name, double grade) { this.id = id; this.name = name; this.grade = grade; }
+        @Override public String toString() { return id + ":" + name + ":" + grade; }
+    }
+
+    public static void main(String[] args) {
+        List<Student> list = new ArrayList<>();
+        list.add(new Student(1, "A", 7.5));
+        list.add(new Student(2, "B", 8.1));
+        list.add(new Student(3, "C", 9.0));
+
+        String file = "students-list.dat";
+        try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(file))) {
+            oos.writeObject(list);
+            System.out.println("Serialized list of " + list.size() + " students -> " + file);
+        } catch (IOException e) {
+            System.out.println("Error: " + e.getMessage());
+        }
+    }
+}
+// AddService.java
+// Remote interface for RMI (method add)
+import java.rmi.Remote;
+import java.rmi.RemoteException;
+
+public interface AddService extends Remote {
+    int add(int a, int b) throws RemoteException;
+}
+// AddServer.java
+// RMI server that registers AddService implementation
+import java.rmi.registry.LocateRegistry;
+import java.rmi.registry.Registry;
+import java.rmi.server.UnicastRemoteObject;
+import java.rmi.RemoteException;
+import java.rmi.Naming;
+
+public class AddServer implements AddService {
+    public AddServer() {}
+
+    @Override
+    public int add(int a, int b) throws RemoteException {
+        return a + b;
+    }
+
+    public static void main(String[] args) {
+        try {
+            // create and export remote object
+            AddServer obj = new AddServer();
+            AddService stub = (AddService) UnicastRemoteObject.exportObject(obj, 0);
+
+            // create registry programmatically on port 1099
+            Registry reg = LocateRegistry.createRegistry(1099);
+            reg.rebind("AddService", stub);
+
+            System.out.println("AddServer bound as 'AddService' and ready.");
+        } catch (Exception e) {
+            System.out.println("AddServer error: " + e.getMessage());
+            e.printStackTrace();
+        }
+    }
+}
+// AddClient.java
+// RMI client that looks up AddService and calls add()
+import java.rmi.registry.LocateRegistry;
+import java.rmi.registry.Registry;
+
+public class AddClient {
+    public static void main(String[] args) {
+        try {
+            Registry reg = LocateRegistry.getRegistry("localhost", 1099);
+            AddService stub = (AddService) reg.lookup("AddService");
+            int a = 10, b = 25;
+            int res = stub.add(a, b);
+            System.out.println("AddService.add(" + a + "," + b + ") = " + res);
+        } catch (Exception e) {
+            System.out.println("AddClient error: " + e.getMessage());
+            e.printStackTrace();
+        }
+    }
+}
+
+// ObjectService.java
+import java.rmi.Remote;
+import java.rmi.RemoteException;
+
+public interface ObjectService extends Remote {
+    String describe(StudentData s) throws RemoteException;
+}
+// StudentData.java
+import java.io.Serializable;
+
+public class StudentData implements Serializable {
+    private static final long serialVersionUID = 1L;
+    public int id;
+    public String name;
+    public double grade;
+    public StudentData(int id, String name, double grade) { this.id = id; this.name = name; this.grade = grade; }
+    @Override public String toString() { return "StudentData{" + id + "," + name + "," + grade + "}"; }
+}
+// ObjectServer.java
+import java.rmi.registry.LocateRegistry;
+import java.rmi.registry.Registry;
+import java.rmi.server.UnicastRemoteObject;
+
+public class ObjectServer implements ObjectService {
+    public ObjectServer() {}
+
+    @Override
+    public String describe(StudentData s) {
+        return "Received student: " + s.toString();
+    }
+
+    public static void main(String[] args) {
+        try {
+            ObjectServer serv = new ObjectServer();
+            ObjectService stub = (ObjectService) UnicastRemoteObject.exportObject(serv, 0);
+            LocateRegistry.createRegistry(1099).rebind("ObjectService", stub);
+            System.out.println("ObjectService bound and ready.");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+}
+// ObjectClient.java
+import java.rmi.registry.LocateRegistry;
+import java.rmi.registry.Registry;
+
+public class ObjectClient {
+    public static void main(String[] args) {
+        try {
+            Registry reg = LocateRegistry.getRegistry("localhost", 1099);
+            ObjectService stub = (ObjectService) reg.lookup("ObjectService");
+            StudentData s = new StudentData(555, "Meera", 9.2);
+            String reply = stub.describe(s);
+            System.out.println("Server replied: " + reply);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+}
+// Program20.java
+// Helper: serialize and then deserialize a StudentData instance (used in RMI example)
+import java.io.*;
+
+public class Program20 {
+    public static void main(String[] args) {
+        StudentData s = new StudentData(999, "Test", 7.5);
+        String file = "studentdata.obj";
+        try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(file))) {
+            oos.writeObject(s);
+            System.out.println("Wrote StudentData -> " + file);
+        } catch (IOException e) { e.printStackTrace(); }
+
+        try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(file))) {
+            StudentData r = (StudentData) ois.readObject();
+            System.out.println("Read back: " + r);
+        } catch (Exception e) { e.printStackTrace(); }
+    }
+}
